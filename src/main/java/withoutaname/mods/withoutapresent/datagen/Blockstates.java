@@ -1,6 +1,6 @@
 package withoutaname.mods.withoutapresent.datagen;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.Direction;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -8,8 +8,10 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import withoutaname.mods.withoutapresent.WithoutAPresent;
 import withoutaname.mods.withoutapresent.blocks.PresentBlock;
+import withoutaname.mods.withoutapresent.setup.Registration;
 
 import java.util.HashMap;
+import java.util.function.Function;
 
 public class Blockstates extends BlockStateProvider {
 
@@ -38,7 +40,12 @@ public class Blockstates extends BlockStateProvider {
 					.texture("top", modLoc("block/present_" + color + "_top")));
 			itemModels().withExistingParent("present_" + color, modLoc("block/present_" + color));
 		}
-
+		horizontalBlock(Registration.PRESENT_BLOCK.get(), new Function<BlockState, ModelFile>() {
+			@Override
+			public ModelFile apply(BlockState blockState) {
+				return coloredPresent.get(blockState.get(PresentBlock.COLOR_PROPERTY));
+			}
+		});
 	}
 
 }

@@ -1,8 +1,3 @@
 {
-  "block.withoutapresent.present_blue": "Present",
-  "block.withoutapresent.present_green": "Present",
-  "block.withoutapresent.present_purple": "Present",
-  "block.withoutapresent.present_red": "Present",
-  "block.withoutapresent.present_yellow": "Present",
   "itemGroup.withoutapresent": "WithoutAPresent"
 }

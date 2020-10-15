@@ -1,12 +1,10 @@
 package withoutaname.mods.withoutapresent.blocks;
 
-import com.sun.org.apache.regexp.internal.RE;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -17,13 +15,11 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraftforge.fml.RegistryObject;
 import org.jetbrains.annotations.Nullable;
-import withoutaname.mods.withoutapresent.setup.Registration;
 
 public class PresentBlock extends Block {
 
-	public static final EnumProperty<Color> SIGNAL_MASTSIGN = EnumProperty.create("mastsign", Color.class);
+	public static final EnumProperty<Color> COLOR_PROPERTY = EnumProperty.create("color", Color.class);
 
 	protected VoxelShape shape = VoxelShapes.create(.125, .0, .125, .875, .75, .875);
 
@@ -42,13 +38,15 @@ public class PresentBlock extends Block {
 
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(BlockStateProperties.HORIZONTAL_FACING);
+		builder.add(BlockStateProperties.HORIZONTAL_FACING, COLOR_PROPERTY);
 	}
 
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+		return getDefaultState()
+				.with(BlockStateProperties.HORIZONTAL_FACING, context.getPlacementHorizontalFacing())
+				.with(COLOR_PROPERTY, Color.BLUE);
 	}
 
 	public enum Color implements IStringSerializable {
