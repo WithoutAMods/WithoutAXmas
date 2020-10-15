@@ -9,6 +9,8 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import withoutaname.mods.withoutapresent.WithoutAPresent;
 import withoutaname.mods.withoutapresent.blocks.PresentBlock;
 
+import java.util.HashMap;
+
 public class Blockstates extends BlockStateProvider {
 
 	public Blockstates(DataGenerator gen, ExistingFileHelper exFileHelper) {
@@ -17,7 +19,7 @@ public class Blockstates extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		ModelFile present =models().getBuilder("block/present")
+		ModelFile present = models().getBuilder("block/present")
 				.parent(models().getExistingFile(mcLoc("block/block")))
 				.texture("particle", "#side")
 				.element().from(2, 0, 2).to(14, 12, 14)
@@ -28,12 +30,12 @@ public class Blockstates extends BlockStateProvider {
 					.face(Direction.UP).texture("#top").uvs(0, 0, 16, 16).end()
 					.face(Direction.DOWN).texture("#side").uvs(0, 0, 16, 16).end()
 					.end();
-		for (PresentBlock.Color color : PresentBlock.getAllColors()) {
-			ModelFile coloredPresent = models().getBuilder("block/present_" + color)
+		HashMap<PresentBlock.Color, ModelFile> coloredPresent = new HashMap<>();
+		for (PresentBlock.Color color : PresentBlock.Color.getAll()) {
+			coloredPresent.put(color, models().getBuilder("block/present_" + color)
 					.parent(present)
 					.texture("side", modLoc("block/present_" + color))
-					.texture("top", modLoc("block/present_" + color + "_top"));
-			horizontalBlock((Block) color.getBlockRegistryObject().get(), coloredPresent);
+					.texture("top", modLoc("block/present_" + color + "_top")));
 			itemModels().withExistingParent("present_" + color, modLoc("block/present_" + color));
 		}
 

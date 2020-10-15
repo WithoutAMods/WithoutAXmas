@@ -4,7 +4,6 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.data.LanguageProvider;
 import withoutaname.mods.withoutapresent.WithoutAPresent;
-import withoutaname.mods.withoutapresent.blocks.PresentBlock;
 
 public class Language extends LanguageProvider {
 	
@@ -17,10 +16,6 @@ public class Language extends LanguageProvider {
 
 	@Override
 	protected void addTranslations() {
-		for (PresentBlock.Color color : PresentBlock.getAllColors()) {
-			add((Item) color.getItemRegistryObject().get(), "Geschenk", "Present");
-		}
-
 		add("itemGroup.withoutapresent", "WithoutAPresent", "WithoutAPresent");
 	}
 

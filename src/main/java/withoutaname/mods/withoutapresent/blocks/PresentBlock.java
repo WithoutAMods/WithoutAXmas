@@ -1,14 +1,15 @@
 package withoutaname.mods.withoutapresent.blocks;
 
+import com.sun.org.apache.regexp.internal.RE;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
+import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
@@ -21,6 +22,8 @@ import org.jetbrains.annotations.Nullable;
 import withoutaname.mods.withoutapresent.setup.Registration;
 
 public class PresentBlock extends Block {
+
+	public static final EnumProperty<Color> SIGNAL_MASTSIGN = EnumProperty.create("mastsign", Color.class);
 
 	protected VoxelShape shape = VoxelShapes.create(.125, .0, .125, .875, .75, .875);
 
@@ -48,11 +51,7 @@ public class PresentBlock extends Block {
 		return getDefaultState().with(BlockStateProperties.FACING, context.getPlacementHorizontalFacing());
 	}
 
-	public static Color[] getAllColors() {
-		return new Color[]{Color.BLUE, Color.GREEN, Color.PURPLE, Color.RED, Color.YELLOW};
-	}
-
-	public enum  Color implements IStringSerializable {
+	public enum Color implements IStringSerializable {
 		BLUE("blue"),
 		GREEN("green"),
 		PURPLE("purple"),
@@ -75,37 +74,10 @@ public class PresentBlock extends Block {
 			return getString();
 		}
 
-		public RegistryObject<PresentBlock> getBlockRegistryObject() {
-			switch (this.name) {
-				case "blue":
-					return Registration.PRESENT_BLUE_BLOCK;
-				case "green":
-					return Registration.PRESENT_GREEN_BLOCK;
-				case "purple":
-					return Registration.PRESENT_PURPLE_BLOCK;
-				case "red":
-					return Registration.PRESENT_RED_BLOCK;
-				case "yellow":
-					return Registration.PRESENT_YELLOW_BLOCK;
-			}
-			return null;
+		public static Color[] getAll() {
+			return new Color[] {BLUE, GREEN, PURPLE, RED, YELLOW};
 		}
 
-		public RegistryObject<Item> getItemRegistryObject() {
-			switch (this.name) {
-				case "blue":
-					return Registration.PRESENT_BLUE_ITEM;
-				case "green":
-					return Registration.PRESENT_GREEN_ITEM;
-				case "purple":
-					return Registration.PRESENT_PURPLE_ITEM;
-				case "red":
-					return Registration.PRESENT_RED_ITEM;
-				case "yellow":
-					return Registration.PRESENT_YELLOW_ITEM;
-			}
-			return null;
-		}
 	}
 
 }
