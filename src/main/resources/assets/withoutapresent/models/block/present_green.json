@@ -1,0 +1,7 @@
+{
+  "parent": "withoutapresent:block/present",
+  "textures": {
+    "side": "withoutapresent:block/present_green",
+    "top": "withoutapresent:block/present_green_top"
+  }
+}
