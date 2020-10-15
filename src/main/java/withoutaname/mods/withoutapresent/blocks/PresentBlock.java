@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -45,9 +46,12 @@ public class PresentBlock extends Block {
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		String[] key = context.getItem().getTranslationKey().split("_");
+		String colorName = key[key.length - 1];
+		Color color = Color.fromString(colorName);
 		return getDefaultState()
 				.with(BlockStateProperties.HORIZONTAL_FACING, context.getPlacementHorizontalFacing())
-				.with(COLOR_PROPERTY, Color.BLUE);
+				.with(COLOR_PROPERTY, color != null ? color : Color.BLUE);
 	}
 
 	public enum Color implements IStringSerializable {
@@ -61,6 +65,22 @@ public class PresentBlock extends Block {
 
 		Color(String name) {
 			this.name = name;
+		}
+
+		public static Color fromString(String color) {
+			switch (color) {
+				case "blue":
+					return BLUE;
+				case "green":
+					return GREEN;
+				case "purple":
+					return PURPLE;
+				case "red":
+					return RED;
+				case "yellow":
+					return YELLOW;
+			}
+			return null;
 		}
 
 		@Override
