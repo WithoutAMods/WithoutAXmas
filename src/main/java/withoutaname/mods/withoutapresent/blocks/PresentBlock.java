@@ -28,7 +28,8 @@ public class PresentBlock extends Block {
 				.sound(SoundType.WOOD)
 				.hardnessAndResistance(2.5F));
 		this.setDefaultState(this.stateContainer.getBaseState()
-				.with(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
+				.with(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
+				.with(COLOR_PROPERTY, Color.BLUE));
 	}
 
 	@Override
