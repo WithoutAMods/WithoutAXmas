@@ -9,6 +9,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import withoutaname.mods.withoutapresent.WithoutAPresent;
 import withoutaname.mods.withoutapresent.blocks.PresentBlock;
 import withoutaname.mods.withoutapresent.setup.Registration;
+import withoutaname.mods.withoutapresent.tools.Color;
 
 import java.util.HashMap;
 import java.util.function.Function;
@@ -32,20 +33,15 @@ public class Blockstates extends BlockStateProvider {
 					.face(Direction.UP).texture("#top").uvs(0, 0, 16, 16).end()
 					.face(Direction.DOWN).texture("#side").uvs(0, 0, 16, 16).end()
 					.end();
-		HashMap<PresentBlock.Color, ModelFile> coloredPresent = new HashMap<>();
-		for (PresentBlock.Color color : PresentBlock.Color.getAll()) {
+		HashMap<Color, ModelFile> coloredPresent = new HashMap<>();
+		for (Color color : Color.getAll()) {
 			coloredPresent.put(color, models().getBuilder("block/present_" + color)
 					.parent(present)
 					.texture("side", modLoc("block/present_" + color))
 					.texture("top", modLoc("block/present_" + color + "_top")));
 			itemModels().withExistingParent("present_" + color, modLoc("block/present_" + color));
 		}
-		horizontalBlock(Registration.PRESENT_BLOCK.get(), new Function<BlockState, ModelFile>() {
-			@Override
-			public ModelFile apply(BlockState blockState) {
-				return coloredPresent.get(blockState.get(PresentBlock.COLOR_PROPERTY));
-			}
-		});
+		horizontalBlock(Registration.PRESENT_BLOCK.get(), (blockState) -> coloredPresent.get(blockState.get(PresentBlock.COLOR_PROPERTY)));
 	}
 
 }

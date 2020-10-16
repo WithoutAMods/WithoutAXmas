@@ -13,7 +13,7 @@ public class WithoutAPresent {
 
 	public static final String MODID = "withoutapresent";
 
-	private static final Logger LOGGER = LogManager.getLogger();
+	public static final Logger LOGGER = LogManager.getLogger();
 
 	public WithoutAPresent() {
 		Registration.init();

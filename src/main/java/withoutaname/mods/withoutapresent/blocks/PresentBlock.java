@@ -5,18 +5,17 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import org.jetbrains.annotations.Nullable;
+import withoutaname.mods.withoutapresent.tools.Color;
 
 public class PresentBlock extends Block {
 
@@ -41,62 +40,6 @@ public class PresentBlock extends Block {
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(BlockStateProperties.HORIZONTAL_FACING, COLOR_PROPERTY);
-	}
-
-	@Nullable
-	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		String[] key = context.getItem().getTranslationKey().split("_");
-		String colorName = key[key.length - 1];
-		Color color = Color.fromString(colorName);
-		return getDefaultState()
-				.with(BlockStateProperties.HORIZONTAL_FACING, context.getPlacementHorizontalFacing())
-				.with(COLOR_PROPERTY, color != null ? color : Color.BLUE);
-	}
-
-	public enum Color implements IStringSerializable {
-		BLUE("blue"),
-		GREEN("green"),
-		PURPLE("purple"),
-		RED("red"),
-		YELLOW("yellow");
-
-		private final String name;
-
-		Color(String name) {
-			this.name = name;
-		}
-
-		public static Color fromString(String color) {
-			switch (color) {
-				case "blue":
-					return BLUE;
-				case "green":
-					return GREEN;
-				case "purple":
-					return PURPLE;
-				case "red":
-					return RED;
-				case "yellow":
-					return YELLOW;
-			}
-			return null;
-		}
-
-		@Override
-		public String getString() {
-			return name;
-		}
-
-		@Override
-		public String toString() {
-			return getString();
-		}
-
-		public static Color[] getAll() {
-			return new Color[] {BLUE, GREEN, PURPLE, RED, YELLOW};
-		}
-
 	}
 
 }
