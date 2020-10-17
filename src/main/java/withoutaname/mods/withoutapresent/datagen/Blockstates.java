@@ -1,6 +1,5 @@
 package withoutaname.mods.withoutapresent.datagen;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.Direction;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -12,7 +11,6 @@ import withoutaname.mods.withoutapresent.setup.Registration;
 import withoutaname.mods.withoutapresent.tools.Color;
 
 import java.util.HashMap;
-import java.util.function.Function;
 
 public class Blockstates extends BlockStateProvider {
 
@@ -34,7 +32,7 @@ public class Blockstates extends BlockStateProvider {
 					.face(Direction.DOWN).texture("#side").uvs(0, 0, 16, 16).end()
 					.end();
 		HashMap<Color, ModelFile> coloredPresent = new HashMap<>();
-		for (Color color : Color.getAll()) {
+		for (Color color : Color.getValues()) {
 			coloredPresent.put(color, models().getBuilder("block/present_" + color)
 					.parent(present)
 					.texture("side", modLoc("block/present_" + color))

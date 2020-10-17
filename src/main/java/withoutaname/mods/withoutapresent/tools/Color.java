@@ -41,7 +41,7 @@ public enum Color implements IStringSerializable {
 		return getString();
 	}
 
-	public static Color[] getAll() {
+	public static Color[] getValues() {
 		return new Color[] {BLUE, GREEN, PURPLE, RED, YELLOW};
 	}
 

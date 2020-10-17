@@ -4,6 +4,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import withoutaname.mods.withoutapresent.setup.ClientSetup;
 import withoutaname.mods.withoutapresent.setup.ModSetup;
 import withoutaname.mods.withoutapresent.setup.Registration;
 
@@ -20,6 +21,7 @@ public class WithoutAPresent {
 
 		// Register the setup method for modloading
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(ModSetup::init);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientSetup::init);
 	}
 
 }
