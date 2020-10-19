@@ -1,6 +1,6 @@
 502b068f30d1099a9b7710893d0636d17f0ba7c2 assets/withoutapresent/blockstates/present.json
-2d3be72321ef6b85dabdd1cffbd55617339e5aaf assets/withoutapresent/lang/de_de.json
-3fe9e88fa1f1e31792c290da913658cf11da485e assets/withoutapresent/lang/en_us.json
+43864c0d24f8a5eec3c98f90ef2f630c5d112fc3 assets/withoutapresent/lang/de_de.json
+292b29a58af8471f97d61c99026540d5458bee20 assets/withoutapresent/lang/en_us.json
 1b4dfad8ed7bca908981c32eb5040c6e8079be70 assets/withoutapresent/models/block/present.json
 6d5e6e18571ac38c5113ace80d4d649b1c94b462 assets/withoutapresent/models/block/present_blue.json
 9bd1ead4c4595af19501718263df877551d1ba4c assets/withoutapresent/models/block/present_green.json
@@ -12,3 +12,4 @@ b85c2072e181a90cda3b1d7f2ff960d83af0874b assets/withoutapresent/models/block/pre
 d257d37052c474ee5b302c87e39d58b1d52d6c22 assets/withoutapresent/models/item/present_purple.json
 538e2edcec6541dc30eb0269892193408e6c12eb assets/withoutapresent/models/item/present_red.json
 aa76b312c4c7f55607084ea8f873191609d3fcd8 assets/withoutapresent/models/item/present_yellow.json
+c8e300ef5c1fdb17a19174d2b528d8d3c9999a01 data/withoutapresent/loot_tables/blocks/present.json

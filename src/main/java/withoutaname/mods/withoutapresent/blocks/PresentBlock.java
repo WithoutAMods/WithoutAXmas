@@ -10,6 +10,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -28,6 +29,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
+import withoutaname.mods.withoutapresent.setup.Registration;
 import withoutaname.mods.withoutapresent.tools.Color;
 
 public class PresentBlock extends Block {
@@ -66,6 +68,11 @@ public class PresentBlock extends Block {
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return this.shape;
+	}
+
+	@Override
+	public Item asItem() {
+		return Registration.PRESENT_BLUE_ITEM.get();
 	}
 
 	@SuppressWarnings("deprecation")
