@@ -29,6 +29,8 @@ public class Language extends LanguageProvider {
 		add(Registration.PRESENT_RED_ITEM.get(), PRESENT_DE_DE, PRESENT_EN_US);
 		add(Registration.PRESENT_YELLOW_ITEM.get(), PRESENT_DE_DE, PRESENT_EN_US);
 
+		add("screen.withoutapresent.present", PRESENT_DE_DE, PRESENT_EN_US);
+
 		add("itemGroup.withoutapresent", "WithoutAPresent", "WithoutAPresent");
 	}
 
