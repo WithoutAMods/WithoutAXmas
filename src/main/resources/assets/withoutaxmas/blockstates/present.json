@@ -1,0 +1,79 @@
+{
+  "variants": {
+    "color=blue,facing=north": {
+      "model": "withoutaxmas:block/present_blue"
+    },
+    "color=green,facing=north": {
+      "model": "withoutaxmas:block/present_green"
+    },
+    "color=purple,facing=north": {
+      "model": "withoutaxmas:block/present_purple"
+    },
+    "color=red,facing=north": {
+      "model": "withoutaxmas:block/present_red"
+    },
+    "color=yellow,facing=north": {
+      "model": "withoutaxmas:block/present_yellow"
+    },
+    "color=blue,facing=south": {
+      "model": "withoutaxmas:block/present_blue",
+      "y": 180
+    },
+    "color=green,facing=south": {
+      "model": "withoutaxmas:block/present_green",
+      "y": 180
+    },
+    "color=purple,facing=south": {
+      "model": "withoutaxmas:block/present_purple",
+      "y": 180
+    },
+    "color=red,facing=south": {
+      "model": "withoutaxmas:block/present_red",
+      "y": 180
+    },
+    "color=yellow,facing=south": {
+      "model": "withoutaxmas:block/present_yellow",
+      "y": 180
+    },
+    "color=blue,facing=west": {
+      "model": "withoutaxmas:block/present_blue",
+      "y": 270
+    },
+    "color=green,facing=west": {
+      "model": "withoutaxmas:block/present_green",
+      "y": 270
+    },
+    "color=purple,facing=west": {
+      "model": "withoutaxmas:block/present_purple",
+      "y": 270
+    },
+    "color=red,facing=west": {
+      "model": "withoutaxmas:block/present_red",
+      "y": 270
+    },
+    "color=yellow,facing=west": {
+      "model": "withoutaxmas:block/present_yellow",
+      "y": 270
+    },
+    "color=blue,facing=east": {
+      "model": "withoutaxmas:block/present_blue",
+      "y": 90
+    },
+    "color=green,facing=east": {
+      "model": "withoutaxmas:block/present_green",
+      "y": 90
+    },
+    "color=purple,facing=east": {
+      "model": "withoutaxmas:block/present_purple",
+      "y": 90
+    },
+    "color=red,facing=east": {
+      "model": "withoutaxmas:block/present_red",
+      "y": 90
+    },
+    "color=yellow,facing=east": {
+      "model": "withoutaxmas:block/present_yellow",
+      "y": 90
+    }
+  }
+}

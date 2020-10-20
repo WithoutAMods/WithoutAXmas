@@ -16,11 +16,11 @@ license="All rights reserved"
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 # The modid of the mod
-modId="withoutapresent" #mandatory
+modId="withoutaxmas" #mandatory
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
 version="${file.jarVersion}" #mandatory
 # A display name for the mod
-displayName="WithoutAPresent" #mandatory
+displayName="WithoutAXmas" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification <here>
 #updateJSONURL="http://myurl.me/" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
@@ -28,7 +28,7 @@ displayName="WithoutAPresent" #mandatory
 # A file name (in the root of the mod JAR) containing a logo for display
 #logoFile="examplemod.png" #optional
 # A text field displayed in the mod UI
-#credits="Thanks for this example mod goes to Java" #optional
+credits="Textures by dein_Nachbar" #optional
 # A text field displayed in the mod UI
 authors="WithoutAName" #optional
 # The description text for the mod (multi line!) (#mandatory)
@@ -37,7 +37,7 @@ Description
 '''
 
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.withoutapresent]] #optional
+[[dependencies.withoutaxmas]] #optional
     # the modid of the dependency
     modId="forge" #mandatory
     # Does this dependency have to exist - if not, ordering below must be specified
@@ -50,14 +50,14 @@ Description
     side="BOTH"
 
 # Here's another dependency
-[[dependencies.withoutapresent]]
+[[dependencies.withoutaxmas]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.16.3]"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.withoutapresent]]
+[[dependencies.withoutaxmas]]
     modId="withoutalib"
     mandatory=true
     versionRange="[0.1.0,)"
