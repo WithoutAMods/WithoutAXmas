@@ -1,6 +1,6 @@
 a58e8a7e88fdc8dbd20707ae115248d8440b6f6c assets/withoutaxmas/blockstates/present.json
-74ad72efa1ec949922ae7c9cec5fbe27d9f50927 assets/withoutaxmas/lang/de_de.json
-84341d44a47278a6169d001657461c7988b03a47 assets/withoutaxmas/lang/en_us.json
+6028e678425e70d13e6916e90266b3225551523b assets/withoutaxmas/lang/de_de.json
+3770c37884f156a4ce79d1af5233b815922b810e assets/withoutaxmas/lang/en_us.json
 1b4dfad8ed7bca908981c32eb5040c6e8079be70 assets/withoutaxmas/models/block/present.json
 3cd136848e796bbdeb6509fd673b5f2fc9b3f4b7 assets/withoutaxmas/models/block/present_blue.json
 a66d7d491e0b604412d1fd834ef5b48c82b25444 assets/withoutaxmas/models/block/present_green.json
@@ -13,3 +13,6 @@ fc815a94c3e7d77dba4df9e22b466f36f9b4f49e assets/withoutaxmas/models/item/present
 d9def8d11975a9a50f94fe629043fcf109c2ba49 assets/withoutaxmas/models/item/present_red.json
 78558070745d51ee18871471f9037666e5e8327c assets/withoutaxmas/models/item/present_yellow.json
 2423c0bcdea5bbf800a6cb34bbdf6f4b8ed5b7e4 data/withoutaxmas/loot_tables/blocks/present.json
+be1a9de32626266f8a6394ed372f1d6e12b8f102 data/withoutaxmas/loot_tables/blocks/xmas_tree_bottom.json
+6047c7a40d7202f193c438891806034565d45800 data/withoutaxmas/loot_tables/blocks/xmas_tree_middle.json
+7da66c15aa04688fac6e1426e7b2187bac3cf768 data/withoutaxmas/loot_tables/blocks/xmas_tree_top.json

@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.common.data.LanguageProvider;
 import withoutaname.mods.withoutaxmas.WithoutAXmas;
 import withoutaname.mods.withoutaxmas.modules.present.setup.PresentRegistration;
+import withoutaname.mods.withoutaxmas.modules.xmastree.setup.XmasTreeRegistration;
 
 public class Language extends LanguageProvider {
 
@@ -19,6 +20,7 @@ public class Language extends LanguageProvider {
 	@Override
 	protected void addTranslations() {
 		addPresentTranslations();
+		addXmasTreeTranslations();
 
 		add("itemGroup.withoutaxmas", "WithoutAXmas", "WithoutAXmas");
 	}
@@ -36,6 +38,17 @@ public class Language extends LanguageProvider {
 		add(PresentRegistration.PRESENT_YELLOW_ITEM.get(), PRESENT_DE_DE, PRESENT_EN_US);
 
 		add("screen.withoutaxmas.present", PRESENT_DE_DE, PRESENT_EN_US);
+	}
+
+	public static final String XMAS_TREE_DE_DE = "Weihnachtsbaum";
+	public static final String XMAS_TREE_EN_US = "Xmas Tree";
+
+	private void addXmasTreeTranslations() {
+		add(XmasTreeRegistration.XMAS_TREE_BOTTOM_BLOCK.get(), XMAS_TREE_DE_DE, XMAS_TREE_EN_US);
+		add(XmasTreeRegistration.XMAS_TREE_MIDDLE_BLOCK.get(), XMAS_TREE_DE_DE, XMAS_TREE_EN_US);
+		add(XmasTreeRegistration.XMAS_TREE_TOP_BLOCK.get(), XMAS_TREE_DE_DE, XMAS_TREE_EN_US);
+
+		add(XmasTreeRegistration.XMAS_TREE_ITEM.get(), XMAS_TREE_DE_DE, XMAS_TREE_EN_US);
 	}
 
 	private void add(String key, String de_de, String en_us) {

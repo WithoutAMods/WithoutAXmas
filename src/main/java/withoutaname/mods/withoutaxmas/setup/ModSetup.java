@@ -5,6 +5,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import withoutaname.mods.withoutaxmas.modules.present.setup.PresentRegistration;
+import withoutaname.mods.withoutaxmas.modules.xmastree.setup.XmasTreeRegistration;
 
 public class ModSetup {
 
@@ -12,7 +13,7 @@ public class ModSetup {
 
 		@Override
 		public ItemStack createIcon() {
-			return new ItemStack(PresentRegistration.PRESENT_BLUE_ITEM.get());
+			return new ItemStack(XmasTreeRegistration.XMAS_TREE_ITEM.get());
 		}
 
 	};

@@ -5,6 +5,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import withoutaname.mods.withoutaxmas.modules.present.setup.PresentRegistration;
+import withoutaname.mods.withoutaxmas.modules.xmastree.setup.XmasTreeRegistration;
 import withoutaname.mods.withoutaxmas.setup.ClientSetup;
 import withoutaname.mods.withoutaxmas.setup.ModSetup;
 
@@ -18,6 +19,7 @@ public class WithoutAXmas {
 
 	public WithoutAXmas() {
 		PresentRegistration.init();
+		XmasTreeRegistration.init();
 
 		// Register the setup method for modloading
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(ModSetup::init);
