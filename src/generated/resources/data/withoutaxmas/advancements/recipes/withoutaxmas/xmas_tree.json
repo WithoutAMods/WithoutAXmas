@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "withoutaxmas:xmas_tree"
+    ]
+  },
+  "criteria": {
+    "spruce_sapling": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:spruce_sapling"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "withoutaxmas:xmas_tree"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "spruce_sapling",
+      "has_the_recipe"
+    ]
+  ]
+}
