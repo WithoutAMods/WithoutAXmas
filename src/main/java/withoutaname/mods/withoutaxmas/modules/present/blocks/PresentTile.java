@@ -1,6 +1,7 @@
 package withoutaname.mods.withoutaxmas.modules.present.blocks;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -17,8 +18,11 @@ import org.jetbrains.annotations.Nullable;
 import withoutaname.mods.withoutaxmas.modules.present.setup.PresentRegistration;
 
 import javax.annotation.Nonnull;
+import java.util.UUID;
 
 public class PresentTile extends TileEntity {
+
+	private UUID placer;
 
 	private ItemStackHandler itemHandler = createItemHandler();
 
@@ -31,11 +35,59 @@ public class PresentTile extends TileEntity {
 	public void dropInventory(World world, BlockPos pos) {
 		this.setWorldAndPos(world, pos);
 		ItemStack itemStack;
-		for(int i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; i++) {
 			itemStack = itemHandler.getStackInSlot(i);
 			world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), itemStack));
 		}
 		markDirty();
+	}
+
+	public void openPresent(World world, BlockPos pos) {
+		this.setWorldAndPos(world, pos);
+		if (!this.isEmpty()) {
+			world.setBlockState(pos, Blocks.AIR.getDefaultState());
+			this.dropInventory(world, pos);
+		}
+	}
+
+	public void setPlacer(UUID placer) {
+		this.placer = placer;
+	}
+
+	public UUID getPlacer() {
+		return this.placer;
+	}
+
+	public int getSize() {
+		int size;
+		switch (getStackAmount()) {
+			default:
+			case 0:
+			case 1:
+				size = 0;
+				break;
+			case 2:
+				size = 1;
+				break;
+			case 3:
+				size = 2;
+				break;
+		}
+		return size;
+	}
+
+	public int getStackAmount() {
+		int stackAmount = 0;
+		for (int i = 0; i < itemHandler.getSlots(); i++) {
+			if (!itemHandler.getStackInSlot(i).isEmpty()) {
+				stackAmount++;
+			}
+		}
+		return stackAmount;
+	}
+
+	public boolean isEmpty() {
+		return getStackAmount() == 0;
 	}
 
 	@Override
@@ -47,13 +99,15 @@ public class PresentTile extends TileEntity {
 	@Override
 	public void read(BlockState state, CompoundNBT nbt) {
 		itemHandler.deserializeNBT(nbt.getCompound("inv"));
+		this.placer = nbt.getUniqueId("placer");
 		super.read(state, nbt);
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT tag) {
-		tag.put("inv", itemHandler.serializeNBT());
-		return super.write(tag);
+	public CompoundNBT write(CompoundNBT nbt) {
+		nbt.put("inv", itemHandler.serializeNBT());
+		nbt.putUniqueId("placer", this.placer);
+		return super.write(nbt);
 	}
 
 	private ItemStackHandler createItemHandler() {
@@ -61,6 +115,7 @@ public class PresentTile extends TileEntity {
 
 			@Override
 			protected void onContentsChanged(int slot) {
+				world.setBlockState(pos, world.getBlockState(pos).with(PresentBlock.SIZE_PROPERTY, getSize()));
 				markDirty();
 			}
 		};

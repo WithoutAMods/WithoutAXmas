@@ -1,5 +1,5 @@
 {
-  "parent": "withoutaxmas:block/present",
+  "parent": "withoutaxmas:block/present_0",
   "textures": {
     "side": "withoutaxmas:block/present_yellow",
     "top": "withoutaxmas:block/present_yellow_top"

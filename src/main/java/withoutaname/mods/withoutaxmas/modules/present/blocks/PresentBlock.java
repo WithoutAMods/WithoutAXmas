@@ -11,6 +11,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.state.EnumProperty;
+import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
@@ -35,8 +36,11 @@ import withoutaname.mods.withoutaxmas.modules.present.tools.Color;
 public class PresentBlock extends Block {
 
 	public static final EnumProperty<Color> COLOR_PROPERTY = EnumProperty.create("color", Color.class);
+	public static final IntegerProperty SIZE_PROPERTY = IntegerProperty.create("size", 0, 2);
 
-	protected VoxelShape shape = VoxelShapes.create(.125, .0, .125, .875, .75, .875);
+	public static final VoxelShape SHAPE_0 = VoxelShapes.create(.25, .0, .25, .75, .5, .75);
+	public static final VoxelShape SHAPE_1 = VoxelShapes.create(.1875, .0, .1875, .8125, .625, .8125);
+	public static final VoxelShape SHAPE_2 = VoxelShapes.create(.125, .0, .125, .875, .75, .875);
 
 	public PresentBlock() {
 		super(Properties.create(Material.WOOD)
@@ -44,7 +48,8 @@ public class PresentBlock extends Block {
 				.hardnessAndResistance(2.5F));
 		this.setDefaultState(this.stateContainer.getBaseState()
 				.with(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
-				.with(COLOR_PROPERTY, Color.BLUE));
+				.with(COLOR_PROPERTY, Color.BLUE)
+				.with(SIZE_PROPERTY, 0));
 	}
 
 	@Override
@@ -61,13 +66,21 @@ public class PresentBlock extends Block {
 
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(BlockStateProperties.HORIZONTAL_FACING, COLOR_PROPERTY);
+		builder.add(BlockStateProperties.HORIZONTAL_FACING, COLOR_PROPERTY, SIZE_PROPERTY);
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return this.shape;
+		switch (state.get(SIZE_PROPERTY)) {
+			default:
+			case 0:
+				return SHAPE_0;
+			case 1:
+				return SHAPE_1;
+			case 2:
+				return SHAPE_2;
+		}
 	}
 
 	@Override
@@ -81,20 +94,27 @@ public class PresentBlock extends Block {
 		if (!world.isRemote) {
 			TileEntity tileEntity = world.getTileEntity(pos);
 			if (tileEntity instanceof PresentTile) {
-				INamedContainerProvider containerProvider = new INamedContainerProvider() {
-					@Override
-					public ITextComponent getDisplayName() {
-						return new TranslationTextComponent("screen.withoutaxmas.present");
-					}
+				PresentTile presentTile = ((PresentTile) tileEntity);
+				presentTile.setWorldAndPos(world, pos);
 
-					@Override
-					public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-						return new PresentContainer(i, world, pos, playerInventory, playerEntity);
-					}
-				};
-				NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getPos());
+				if (player.getUniqueID().equals(presentTile.getPlacer())) {
+					INamedContainerProvider containerProvider = new INamedContainerProvider() {
+						@Override
+						public ITextComponent getDisplayName() {
+							return new TranslationTextComponent("screen.withoutaxmas.present");
+						}
+
+						@Override
+						public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+							return new PresentContainer(i, world, pos, playerInventory, playerEntity);
+						}
+					};
+					NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getPos());
+				} else {
+					presentTile.openPresent(world, pos);
+				}
 			} else {
-				throw new IllegalStateException("Our named container provider is missing!");
+				throw new IllegalStateException("No tile entity found!");
 			}
 		}
 		return ActionResultType.SUCCESS;

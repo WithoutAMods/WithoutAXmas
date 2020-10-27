@@ -17,7 +17,7 @@ public class PresentContainer extends BaseContainer {
 	private PlayerEntity playerEntity;
 
 	public PresentContainer(int windowId, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity player) {
-		super(PresentRegistration.PRESENT_CONTAINER.get(), windowId);
+		super(PresentRegistration.PRESENT_CONTAINER.get(), windowId, 3);
 		tileEntity = world.getTileEntity(pos);
 		this.playerEntity = player;
 
