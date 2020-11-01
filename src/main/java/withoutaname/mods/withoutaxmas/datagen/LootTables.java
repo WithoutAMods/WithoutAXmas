@@ -6,6 +6,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.BlockStateProperty;
 import withoutaname.mods.withoutalib.datagen.BaseLootTableProvider;
+import withoutaname.mods.withoutaxmas.modules.other.setup.OtherRegistration;
 import withoutaname.mods.withoutaxmas.modules.present.blocks.PresentBlock;
 import withoutaname.mods.withoutaxmas.modules.present.setup.PresentRegistration;
 import withoutaname.mods.withoutaxmas.modules.present.tools.Color;
@@ -19,11 +20,17 @@ public class LootTables extends BaseLootTableProvider {
 
 	@Override
 	protected void addTables() {
-		addPresentTable();
-		addXmasTreeTable();
+		addOtherTables();
+		addPresentTables();
+		addXmasTreeTables();
 	}
 
-	private void addPresentTable() {
+	private void addOtherTables() {
+		createStandardTable(OtherRegistration.ADVENT_WREATH_BLOCK.get(), OtherRegistration.ADVENT_WREATH_ITEM.get());
+		createStandardTable(OtherRegistration.CANDLE_BLOCK.get(), OtherRegistration.CANDLE_ITEM.get());
+	}
+
+	private void addPresentTables() {
 		Block block = PresentRegistration.PRESENT_BLOCK.get();
 		AlternativesLootEntry.Builder lootEntry = AlternativesLootEntry.builder(
 				ItemLootEntry.builder(PresentRegistration.PRESENT_BLUE_ITEM.get())
@@ -48,7 +55,7 @@ public class LootTables extends BaseLootTableProvider {
 		lootTables.put(block, getStandardLootTable(getStandardLootPool(block.getRegistryName().toString(), lootEntry)));
 	}
 
-	private void addXmasTreeTable() {
+	private void addXmasTreeTables() {
 		createStandardTable(XmasTreeRegistration.XMAS_TREE_BOTTOM_BLOCK.get(), XmasTreeRegistration.XMAS_TREE_ITEM.get());
 		createStandardTable(XmasTreeRegistration.XMAS_TREE_MIDDLE_BLOCK.get(), XmasTreeRegistration.XMAS_TREE_ITEM.get());
 		createStandardTable(XmasTreeRegistration.XMAS_TREE_TOP_BLOCK.get(), XmasTreeRegistration.XMAS_TREE_ITEM.get());

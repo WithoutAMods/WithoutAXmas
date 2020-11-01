@@ -38,9 +38,9 @@ public class PresentBlock extends Block {
 	public static final EnumProperty<Color> COLOR_PROPERTY = EnumProperty.create("color", Color.class);
 	public static final IntegerProperty SIZE_PROPERTY = IntegerProperty.create("size", 0, 2);
 
-	public static final VoxelShape SHAPE_0 = VoxelShapes.create(.25, .0, .25, .75, .5, .75);
-	public static final VoxelShape SHAPE_1 = VoxelShapes.create(.1875, .0, .1875, .8125, .625, .8125);
-	public static final VoxelShape SHAPE_2 = VoxelShapes.create(.125, .0, .125, .875, .75, .875);
+	public static final VoxelShape SHAPE_0 = Block.makeCuboidShape(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D);
+	public static final VoxelShape SHAPE_1 = Block.makeCuboidShape(3.0D, 0.0D, 3.0D, 13.0D, 10.0D, 13.0D);
+	public static final VoxelShape SHAPE_2 = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
 
 	public PresentBlock() {
 		super(Properties.create(Material.WOOD)

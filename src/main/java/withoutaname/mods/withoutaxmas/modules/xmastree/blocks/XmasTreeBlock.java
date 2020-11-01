@@ -17,7 +17,7 @@ import withoutaname.mods.withoutaxmas.modules.xmastree.setup.XmasTreeRegistratio
 
 public class XmasTreeBlock extends Block{
 
-	protected VoxelShape shape = VoxelShapes.create(0.25, 0.0, 0.25, 0.75, 1.0, 0.75);
+	protected VoxelShape shape = Block.makeCuboidShape(4.0D, 0.0D, 4.0D, 12.0D, 16.0D, 12.0D);
 
 	public XmasTreeBlock() {
 		super(Properties.create(Material.WOOD)

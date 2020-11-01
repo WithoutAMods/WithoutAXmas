@@ -5,6 +5,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.data.LanguageProvider;
 import withoutaname.mods.withoutaxmas.WithoutAXmas;
+import withoutaname.mods.withoutaxmas.modules.other.setup.OtherRegistration;
 import withoutaname.mods.withoutaxmas.modules.present.setup.PresentRegistration;
 import withoutaname.mods.withoutaxmas.modules.xmastree.setup.XmasTreeRegistration;
 
@@ -19,10 +20,16 @@ public class Language extends LanguageProvider {
 
 	@Override
 	protected void addTranslations() {
+		addOtherTranslations();
 		addPresentTranslations();
 		addXmasTreeTranslations();
 
 		add("itemGroup.withoutaxmas", "WithoutAXmas", "WithoutAXmas");
+	}
+
+	private void addOtherTranslations() {
+		add(OtherRegistration.ADVENT_WREATH_BLOCK.get(), "Adventskranz", "Advent Wreath");
+		add(OtherRegistration.CANDLE_BLOCK.get(), "Kerze", "Candle");
 	}
 
 	public static final String PRESENT_DE_DE = "Geschenk";

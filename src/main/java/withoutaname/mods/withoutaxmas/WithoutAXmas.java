@@ -4,6 +4,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import withoutaname.mods.withoutaxmas.modules.other.setup.OtherRegistration;
 import withoutaname.mods.withoutaxmas.modules.present.setup.PresentRegistration;
 import withoutaname.mods.withoutaxmas.modules.xmastree.setup.XmasTreeRegistration;
 import withoutaname.mods.withoutaxmas.setup.ClientSetup;
@@ -18,6 +19,7 @@ public class WithoutAXmas {
 	public static final Logger LOGGER = LogManager.getLogger();
 
 	public WithoutAXmas() {
+		OtherRegistration.init();
 		PresentRegistration.init();
 		XmasTreeRegistration.init();
 

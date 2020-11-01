@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "withoutaxmas:present_green"
+      "withoutaxmas:advent_wreath"
     ]
   },
   "criteria": {
-    "lime_wool": {
+    "candle": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:lime_wool"
+            "item": "withoutaxmas:candle"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "withoutaxmas:present_green"
+        "recipe": "withoutaxmas:advent_wreath"
       }
     }
   },
   "requirements": [
     [
-      "lime_wool",
+      "candle",
       "has_the_recipe"
     ]
   ]

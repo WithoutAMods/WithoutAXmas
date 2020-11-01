@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "green_wool": {
+    "lime_wool": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:green_wool"
+            "item": "minecraft:lime_wool"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "green_wool",
+      "lime_wool",
       "has_the_recipe"
     ]
   ]
