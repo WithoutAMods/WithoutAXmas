@@ -5,7 +5,8 @@
 		"2": "withoutaxmas:custom/kugel_blau",
 		"3": "withoutaxmas:custom/kugel_orange",
 		"4": "withoutaxmas:custom/kugel_rot",
-		"5": "withoutaxmas:custom/leaf"
+		"5": "withoutaxmas:custom/leaf",
+		"particle": "withoutaxmas:custom/leaf"
 	},
 	"elements": [
 		{
