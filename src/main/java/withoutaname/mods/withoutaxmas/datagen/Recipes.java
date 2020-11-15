@@ -7,14 +7,11 @@ import net.minecraft.data.RecipeProvider;
 import net.minecraft.data.ShapedRecipeBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.tags.ITag;
 import net.minecraftforge.common.Tags;
 import withoutaname.mods.withoutaxmas.modules.other.setup.OtherRegistration;
 import withoutaname.mods.withoutaxmas.modules.present.setup.PresentRegistration;
 import withoutaname.mods.withoutaxmas.modules.xmastree.setup.XmasTreeRegistration;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Consumer;
 
 public class Recipes extends RecipeProvider{
