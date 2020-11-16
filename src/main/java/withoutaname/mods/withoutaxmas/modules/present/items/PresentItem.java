@@ -30,21 +30,22 @@ public class PresentItem extends Item {
 		World world = context.getWorld();
 		if (!world.isRemote) {
 			BlockPos pos = world.getBlockState(context.getPos()).getMaterial().isReplaceable() ? context.getPos() : context.getPos().offset(context.getFace());
-			Direction facing = context.getPlacementHorizontalFacing();
-			world.setBlockState(pos, PresentRegistration.PRESENT_BLOCK.get().getDefaultState()
-					.with(BlockStateProperties.HORIZONTAL_FACING, facing)
-					.with(PresentBlock.COLOR_PROPERTY, this.color)
-					.with(PresentBlock.SIZE_PROPERTY, 0));
-			TileEntity tileEntity = world.getTileEntity(pos);
-			if (tileEntity instanceof PresentTile) {
-				UUID player = context.getPlayer().getUniqueID();
-				((PresentTile) tileEntity).setPlacer(player);
-			} else {
-				throw new IllegalStateException("No tile entity found!");
+			if (world.getBlockState(pos).getMaterial().isReplaceable()) {
+				Direction facing = context.getPlacementHorizontalFacing();
+				world.setBlockState(pos, PresentRegistration.PRESENT_BLOCK.get().getDefaultState()
+						.with(BlockStateProperties.HORIZONTAL_FACING, facing)
+						.with(PresentBlock.COLOR_PROPERTY, this.color)
+						.with(PresentBlock.SIZE_PROPERTY, 0));
+				TileEntity tileEntity = world.getTileEntity(pos);
+				if (tileEntity instanceof PresentTile) {
+					UUID player = context.getPlayer().getUniqueID();
+					((PresentTile) tileEntity).setPlacer(player);
+				} else {
+					throw new IllegalStateException("No tile entity found!");
+				}
+				context.getItem().shrink(1);
+				return ActionResultType.SUCCESS;
 			}
-			context.getItem().shrink(1);
-			return ActionResultType.SUCCESS;
-
 		}
 		return super.onItemUse(context);
 	}
