@@ -22,7 +22,7 @@ public class XmasTreeItem extends Item {
 		World world = context.getWorld();
 		if(!world.isRemote) {
 			BlockPos pos = world.getBlockState(context.getPos()).getMaterial().isReplaceable() ? context.getPos() : context.getPos().offset(context.getFace());
-			if (XmasTreeBlock.createTree(world, pos)) {
+			if (XmasTreeBlock.createTree(world, pos, context.getPlacementHorizontalFacing())) {
 				context.getItem().shrink(1);
 				return ActionResultType.SUCCESS;
 			}

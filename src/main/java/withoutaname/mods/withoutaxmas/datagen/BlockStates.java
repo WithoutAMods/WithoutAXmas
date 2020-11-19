@@ -119,9 +119,9 @@ public class BlockStates extends BlockStateProvider {
 	}
 
 	private void registerXmasTree() {
-		simpleBlock(XmasTreeRegistration.XMAS_TREE_BOTTOM_BLOCK.get(), models().getExistingFile(modLoc("block/xmas_tree_bottom")));
-		simpleBlock(XmasTreeRegistration.XMAS_TREE_MIDDLE_BLOCK.get(), models().getExistingFile(modLoc("block/xmas_tree_middle")));
-		simpleBlock(XmasTreeRegistration.XMAS_TREE_TOP_BLOCK.get(), models().getExistingFile(modLoc("block/xmas_tree_top")));
+		horizontalBlock(XmasTreeRegistration.XMAS_TREE_BOTTOM_BLOCK.get(), models().getExistingFile(modLoc("block/xmas_tree_bottom")), 90);
+		horizontalBlock(XmasTreeRegistration.XMAS_TREE_MIDDLE_BLOCK.get(), models().getExistingFile(modLoc("block/xmas_tree_middle")), 90);
+		horizontalBlock(XmasTreeRegistration.XMAS_TREE_TOP_BLOCK.get(), models().getExistingFile(modLoc("block/xmas_tree_top")), 90);
 	}
 
 }

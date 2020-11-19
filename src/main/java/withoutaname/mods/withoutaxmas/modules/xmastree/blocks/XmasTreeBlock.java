@@ -6,6 +6,10 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -13,6 +17,8 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import withoutaname.mods.withoutaxmas.modules.other.setup.OtherRegistration;
+import withoutaname.mods.withoutaxmas.modules.present.tools.Color;
 import withoutaname.mods.withoutaxmas.modules.xmastree.setup.XmasTreeRegistration;
 
 public class XmasTreeBlock extends Block{
@@ -23,6 +29,18 @@ public class XmasTreeBlock extends Block{
 		super(Properties.create(Material.WOOD)
 				.sound(SoundType.WOOD)
 				.hardnessAndResistance(2));
+		this.setDefaultState(this.stateContainer.getBaseState()
+				.with(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
+	}
+
+	@Override
+	public Item asItem() {
+		return XmasTreeRegistration.XMAS_TREE_ITEM.get();
+	}
+
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(BlockStateProperties.HORIZONTAL_FACING);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -47,7 +65,7 @@ public class XmasTreeBlock extends Block{
 		super.onBlockHarvested(worldIn, pos, state, player);
 	}
 	
-	public static boolean createTree(World world, BlockPos pos) {
+	public static boolean createTree(World world, BlockPos pos, Direction facing) {
 		boolean enoughSpace = true;
 		for(int i = 0; i < 3; i++) {
 			if(!world.getBlockState(pos.up(i)).getMaterial().isReplaceable()) {
@@ -57,9 +75,12 @@ public class XmasTreeBlock extends Block{
 		}
 		
 		if(enoughSpace) {
-			world.setBlockState(pos, XmasTreeRegistration.XMAS_TREE_BOTTOM_BLOCK.get().getDefaultState());
-			world.setBlockState(pos.up(), XmasTreeRegistration.XMAS_TREE_MIDDLE_BLOCK.get().getDefaultState());
-			world.setBlockState(pos.up(2), XmasTreeRegistration.XMAS_TREE_TOP_BLOCK.get().getDefaultState());
+			world.setBlockState(pos, XmasTreeRegistration.XMAS_TREE_BOTTOM_BLOCK.get()
+					.getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, facing));
+			world.setBlockState(pos.up(), XmasTreeRegistration.XMAS_TREE_MIDDLE_BLOCK.get()
+					.getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, facing));
+			world.setBlockState(pos.up(2), XmasTreeRegistration.XMAS_TREE_TOP_BLOCK.get()
+					.getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, facing));
 		}
 		
 		return enoughSpace;
