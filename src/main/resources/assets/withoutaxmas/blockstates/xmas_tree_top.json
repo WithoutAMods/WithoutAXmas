@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "withoutaxmas:block/xmas_tree_top",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "withoutaxmas:block/xmas_tree_top",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "withoutaxmas:block/xmas_tree_top",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "withoutaxmas:block/xmas_tree_top"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "withoutaxmas:advent_wreath"
+    ]
+  },
+  "criteria": {
+    "candle": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "withoutaxmas:candle"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "withoutaxmas:advent_wreath"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "candle",
+      "has_the_recipe"
+    ]
+  ]
+}

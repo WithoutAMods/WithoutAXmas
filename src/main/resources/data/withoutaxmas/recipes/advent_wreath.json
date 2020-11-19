@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LCL",
+    "C C",
+    "LCL"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:spruce_leaves"
+    },
+    "C": {
+      "item": "withoutaxmas:candle"
+    }
+  },
+  "result": {
+    "item": "withoutaxmas:advent_wreath"
+  }
+}
