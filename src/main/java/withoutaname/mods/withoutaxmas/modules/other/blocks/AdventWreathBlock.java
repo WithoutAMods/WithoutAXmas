@@ -43,7 +43,7 @@ public class AdventWreathBlock extends Block {
 		super(Properties.create(Material.LEAVES)
 				.sound(SoundType.PLANT)
 				.hardnessAndResistance(1.5F)
-				.setLightLevel((state) -> 5));
+				.lightValue(5));
 	}
 
 	@SuppressWarnings("deprecation")

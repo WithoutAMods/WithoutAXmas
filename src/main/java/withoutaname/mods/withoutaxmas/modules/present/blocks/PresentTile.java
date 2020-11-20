@@ -96,11 +96,13 @@ public class PresentTile extends TileEntity {
 		handler.invalidate();
 	}
 
+
+
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
+	public void read(CompoundNBT nbt) {
 		itemHandler.deserializeNBT(nbt.getCompound("inv"));
 		this.placer = nbt.getUniqueId("placer");
-		super.read(state, nbt);
+		super.read(nbt);
 	}
 
 	@Override
