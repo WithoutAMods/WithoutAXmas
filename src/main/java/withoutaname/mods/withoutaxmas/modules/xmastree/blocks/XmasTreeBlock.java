@@ -66,6 +66,19 @@ public class XmasTreeBlock extends Block{
 	}
 	
 	public static boolean createTree(World world, BlockPos pos, Direction facing) {
+		if(isEnoughSpace(world, pos)) {
+			world.setBlockState(pos, XmasTreeRegistration.XMAS_TREE_BOTTOM_BLOCK.get()
+					.getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, facing));
+			world.setBlockState(pos.up(), XmasTreeRegistration.XMAS_TREE_MIDDLE_BLOCK.get()
+					.getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, facing));
+			world.setBlockState(pos.up(2), XmasTreeRegistration.XMAS_TREE_TOP_BLOCK.get()
+					.getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, facing));
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean isEnoughSpace(World world, BlockPos pos) {
 		boolean enoughSpace = true;
 		for(int i = 0; i < 3; i++) {
 			if(!world.getBlockState(pos.up(i)).getMaterial().isReplaceable()) {
@@ -73,19 +86,9 @@ public class XmasTreeBlock extends Block{
 				break;
 			}
 		}
-		
-		if(enoughSpace) {
-			world.setBlockState(pos, XmasTreeRegistration.XMAS_TREE_BOTTOM_BLOCK.get()
-					.getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, facing));
-			world.setBlockState(pos.up(), XmasTreeRegistration.XMAS_TREE_MIDDLE_BLOCK.get()
-					.getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, facing));
-			world.setBlockState(pos.up(2), XmasTreeRegistration.XMAS_TREE_TOP_BLOCK.get()
-					.getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, facing));
-		}
-		
 		return enoughSpace;
 	}
-	
+
 	public void removeTree(World world, BlockPos pos) {
 		if(!(world.getBlockState(pos).getBlock() == XmasTreeRegistration.XMAS_TREE_BOTTOM_BLOCK.get())) {
 			boolean end;

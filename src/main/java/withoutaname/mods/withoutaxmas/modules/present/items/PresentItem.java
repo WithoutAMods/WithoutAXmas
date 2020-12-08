@@ -28,9 +28,9 @@ public class PresentItem extends Item {
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
 		World world = context.getWorld();
-		if (!world.isRemote) {
-			BlockPos pos = world.getBlockState(context.getPos()).getMaterial().isReplaceable() ? context.getPos() : context.getPos().offset(context.getFace());
-			if (world.getBlockState(pos).getMaterial().isReplaceable()) {
+		BlockPos pos = world.getBlockState(context.getPos()).getMaterial().isReplaceable() ? context.getPos() : context.getPos().offset(context.getFace());
+		if (world.getBlockState(pos).getMaterial().isReplaceable()) {
+			if (!world.isRemote) {
 				Direction facing = context.getPlacementHorizontalFacing();
 				world.setBlockState(pos, PresentRegistration.PRESENT_BLOCK.get().getDefaultState()
 						.with(BlockStateProperties.HORIZONTAL_FACING, facing)
@@ -44,8 +44,8 @@ public class PresentItem extends Item {
 					throw new IllegalStateException("No tile entity found!");
 				}
 				context.getItem().shrink(1);
-				return ActionResultType.SUCCESS;
 			}
+			return ActionResultType.SUCCESS;
 		}
 		return super.onItemUse(context);
 	}
