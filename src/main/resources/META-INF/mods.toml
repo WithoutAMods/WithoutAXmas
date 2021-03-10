@@ -62,6 +62,6 @@ and some other decoration blocks related to Christmas.
 [[dependencies.withoutaxmas]]
     modId="withoutalib"
     mandatory=true
-    versionRange="[0.1.0,)"
+    versionRange="[1.16.4-0.1.0,)"
     ordering="NONE"
     side="BOTH"
