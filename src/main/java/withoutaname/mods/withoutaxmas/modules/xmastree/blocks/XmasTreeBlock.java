@@ -21,16 +21,18 @@ import withoutaname.mods.withoutaxmas.modules.other.setup.OtherRegistration;
 import withoutaname.mods.withoutaxmas.modules.present.tools.Color;
 import withoutaname.mods.withoutaxmas.modules.xmastree.setup.XmasTreeRegistration;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class XmasTreeBlock extends Block{
 
-	protected VoxelShape shape = Block.makeCuboidShape(4.0D, 0.0D, 4.0D, 12.0D, 16.0D, 12.0D);
+	protected VoxelShape shape = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 16.0D, 12.0D);
 
 	public XmasTreeBlock() {
-		super(Properties.create(Material.WOOD)
+		super(Properties.of(Material.WOOD)
 				.sound(SoundType.WOOD)
-				.hardnessAndResistance(2));
-		this.setDefaultState(this.stateContainer.getBaseState()
-				.with(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
+				.strength(2));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
 	}
 
 	@Override
@@ -39,7 +41,7 @@ public class XmasTreeBlock extends Block{
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(BlockStateProperties.HORIZONTAL_FACING);
 	}
 
@@ -51,28 +53,28 @@ public class XmasTreeBlock extends Block{
 	
 	@Override
 	public void onBlockExploded(BlockState state, World world, BlockPos pos, Explosion explosion) {
-		if(!world.isRemote) {
+		if(!world.isClientSide) {
 			removeTree(world, pos);
 		}
 		super.onBlockExploded(state, world, pos, explosion);
 	}
 	
 	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-		if(!worldIn.isRemote) {
+	public void playerWillDestroy(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
+		if(!worldIn.isClientSide) {
 			removeTree(worldIn, pos);
 		}
-		super.onBlockHarvested(worldIn, pos, state, player);
+		super.playerWillDestroy(worldIn, pos, state, player);
 	}
 	
 	public static boolean createTree(World world, BlockPos pos, Direction facing) {
 		if(isEnoughSpace(world, pos)) {
-			world.setBlockState(pos, XmasTreeRegistration.XMAS_TREE_BOTTOM_BLOCK.get()
-					.getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, facing));
-			world.setBlockState(pos.up(), XmasTreeRegistration.XMAS_TREE_MIDDLE_BLOCK.get()
-					.getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, facing));
-			world.setBlockState(pos.up(2), XmasTreeRegistration.XMAS_TREE_TOP_BLOCK.get()
-					.getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, facing));
+			world.setBlockAndUpdate(pos, XmasTreeRegistration.XMAS_TREE_BOTTOM_BLOCK.get()
+					.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, facing));
+			world.setBlockAndUpdate(pos.above(), XmasTreeRegistration.XMAS_TREE_MIDDLE_BLOCK.get()
+					.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, facing));
+			world.setBlockAndUpdate(pos.above(2), XmasTreeRegistration.XMAS_TREE_TOP_BLOCK.get()
+					.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, facing));
 			return true;
 		}
 		return false;
@@ -81,7 +83,7 @@ public class XmasTreeBlock extends Block{
 	public static boolean isEnoughSpace(World world, BlockPos pos) {
 		boolean enoughSpace = true;
 		for(int i = 0; i < 3; i++) {
-			if(!world.getBlockState(pos.up(i)).getMaterial().isReplaceable()) {
+			if(!world.getBlockState(pos.above(i)).getMaterial().isReplaceable()) {
 				enoughSpace = false;
 				break;
 			}
@@ -92,9 +94,9 @@ public class XmasTreeBlock extends Block{
 	public void removeTree(World world, BlockPos pos) {
 		if(!(world.getBlockState(pos).getBlock() == XmasTreeRegistration.XMAS_TREE_BOTTOM_BLOCK.get())) {
 			boolean end;
-			for(int i = 1; world.getBlockState(pos.down(i)).getBlock() instanceof XmasTreeBlock; i++) {
-				end = world.getBlockState(pos.down(i)).getBlock() == XmasTreeRegistration.XMAS_TREE_BOTTOM_BLOCK.get();
-				world.setBlockState(pos.down(i), Blocks.AIR.getDefaultState());
+			for(int i = 1; world.getBlockState(pos.below(i)).getBlock() instanceof XmasTreeBlock; i++) {
+				end = world.getBlockState(pos.below(i)).getBlock() == XmasTreeRegistration.XMAS_TREE_BOTTOM_BLOCK.get();
+				world.setBlockAndUpdate(pos.below(i), Blocks.AIR.defaultBlockState());
 				if(end) {
 					break;
 				}
@@ -102,9 +104,9 @@ public class XmasTreeBlock extends Block{
 		}
 		if(!(world.getBlockState(pos).getBlock() == XmasTreeRegistration.XMAS_TREE_TOP_BLOCK.get())) {
 			boolean end;
-			for(int i = 1; world.getBlockState(pos.up(i)).getBlock() instanceof XmasTreeBlock; i++) {
-				end = world.getBlockState(pos.up(i)).getBlock() == XmasTreeRegistration.XMAS_TREE_TOP_BLOCK.get();
-				world.setBlockState(pos.up(i), Blocks.AIR.getDefaultState());
+			for(int i = 1; world.getBlockState(pos.above(i)).getBlock() instanceof XmasTreeBlock; i++) {
+				end = world.getBlockState(pos.above(i)).getBlock() == XmasTreeRegistration.XMAS_TREE_TOP_BLOCK.get();
+				world.setBlockAndUpdate(pos.above(i), Blocks.AIR.defaultBlockState());
 				if(end) {
 					break;
 				}

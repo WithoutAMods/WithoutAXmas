@@ -32,26 +32,26 @@ public class LootTables extends BaseLootTableProvider {
 
 	private void addPresentTables() {
 		Block block = PresentRegistration.PRESENT_BLOCK.get();
-		AlternativesLootEntry.Builder lootEntry = AlternativesLootEntry.builder(
-				ItemLootEntry.builder(PresentRegistration.PRESENT_BLUE_ITEM.get())
-					.acceptCondition(BlockStateProperty.builder(block)
-						.fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(PresentBlock.COLOR_PROPERTY, Color.BLUE))))
-				.alternatively(
-				ItemLootEntry.builder(PresentRegistration.PRESENT_GREEN_ITEM.get())
-					.acceptCondition(BlockStateProperty.builder(block)
-						.fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(PresentBlock.COLOR_PROPERTY, Color.GREEN))))
-				.alternatively(
-				ItemLootEntry.builder(PresentRegistration.PRESENT_PURPLE_ITEM.get())
-					.acceptCondition(BlockStateProperty.builder(block)
-						.fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(PresentBlock.COLOR_PROPERTY, Color.PURPLE))))
-				.alternatively(
-				ItemLootEntry.builder(PresentRegistration.PRESENT_RED_ITEM.get())
-					.acceptCondition(BlockStateProperty.builder(block)
-						.fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(PresentBlock.COLOR_PROPERTY, Color.RED))))
-				.alternatively(
-				ItemLootEntry.builder(PresentRegistration.PRESENT_YELLOW_ITEM.get())
-					.acceptCondition(BlockStateProperty.builder(block)
-						.fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(PresentBlock.COLOR_PROPERTY, Color.YELLOW))));
+		AlternativesLootEntry.Builder lootEntry = AlternativesLootEntry.alternatives(
+				ItemLootEntry.lootTableItem(PresentRegistration.PRESENT_BLUE_ITEM.get())
+					.when(BlockStateProperty.hasBlockStateProperties(block)
+						.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(PresentBlock.COLOR_PROPERTY, Color.BLUE))))
+				.otherwise(
+				ItemLootEntry.lootTableItem(PresentRegistration.PRESENT_GREEN_ITEM.get())
+					.when(BlockStateProperty.hasBlockStateProperties(block)
+						.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(PresentBlock.COLOR_PROPERTY, Color.GREEN))))
+				.otherwise(
+				ItemLootEntry.lootTableItem(PresentRegistration.PRESENT_PURPLE_ITEM.get())
+					.when(BlockStateProperty.hasBlockStateProperties(block)
+						.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(PresentBlock.COLOR_PROPERTY, Color.PURPLE))))
+				.otherwise(
+				ItemLootEntry.lootTableItem(PresentRegistration.PRESENT_RED_ITEM.get())
+					.when(BlockStateProperty.hasBlockStateProperties(block)
+						.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(PresentBlock.COLOR_PROPERTY, Color.RED))))
+				.otherwise(
+				ItemLootEntry.lootTableItem(PresentRegistration.PRESENT_YELLOW_ITEM.get())
+					.when(BlockStateProperty.hasBlockStateProperties(block)
+						.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(PresentBlock.COLOR_PROPERTY, Color.YELLOW))));
 		lootTables.put(block, getStandardLootTable(getStandardLootPool(block.getRegistryName().toString(), lootEntry)));
 	}
 

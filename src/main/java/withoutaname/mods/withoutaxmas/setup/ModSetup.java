@@ -12,7 +12,7 @@ public class ModSetup {
 	public static final ItemGroup defaultItemGroup = new ItemGroup("withoutaxmas") {
 
 		@Override
-		public ItemStack createIcon() {
+		public ItemStack makeIcon() {
 			return new ItemStack(XmasTreeRegistration.XMAS_TREE_ITEM.get());
 		}
 
@@ -21,6 +21,6 @@ public class ModSetup {
 	public static void init(FMLCommonSetupEvent event) {
 	}
 
-	public static final Item.Properties defaultItemProperties = new Item.Properties().group(defaultItemGroup);
+	public static final Item.Properties defaultItemProperties = new Item.Properties().tab(defaultItemGroup);
 
 }

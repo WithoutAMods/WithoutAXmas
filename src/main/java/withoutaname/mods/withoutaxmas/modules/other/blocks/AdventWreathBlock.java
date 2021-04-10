@@ -10,15 +10,17 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class AdventWreathBlock extends Block {
 
-	public static final VoxelShape SHAPE = VoxelShapes.create(.125, .0, .125, .875, .1875, .875);
+	public static final VoxelShape SHAPE = VoxelShapes.box(.125, .0, .125, .875, .1875, .875);
 
 	public AdventWreathBlock() {
-		super(Properties.create(Material.LEAVES)
-				.sound(SoundType.PLANT)
-				.hardnessAndResistance(1.5F)
-				.setLightLevel((state) -> 5));
+		super(Properties.of(Material.LEAVES)
+				.sound(SoundType.GRASS)
+				.strength(1.5F)
+				.lightLevel((state) -> 5));
 	}
 
 	@SuppressWarnings("deprecation")

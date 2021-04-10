@@ -33,23 +33,25 @@ import withoutaname.mods.withoutaxmas.modules.present.tools.Color;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class PresentBlock extends Block {
 
 	public static final EnumProperty<Color> COLOR_PROPERTY = EnumProperty.create("color", Color.class);
 	public static final IntegerProperty SIZE_PROPERTY = IntegerProperty.create("size", 0, 2);
 
-	public static final VoxelShape SHAPE_0 = Block.makeCuboidShape(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D);
-	public static final VoxelShape SHAPE_1 = Block.makeCuboidShape(3.0D, 0.0D, 3.0D, 13.0D, 10.0D, 13.0D);
-	public static final VoxelShape SHAPE_2 = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
+	public static final VoxelShape SHAPE_0 = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D);
+	public static final VoxelShape SHAPE_1 = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 10.0D, 13.0D);
+	public static final VoxelShape SHAPE_2 = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
 
 	public PresentBlock() {
-		super(Properties.create(Material.WOOD)
+		super(Properties.of(Material.WOOD)
 				.sound(SoundType.WOOD)
-				.hardnessAndResistance(2.5F));
-		this.setDefaultState(this.stateContainer.getBaseState()
-				.with(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
-				.with(COLOR_PROPERTY, Color.BLUE)
-				.with(SIZE_PROPERTY, 0));
+				.strength(2.5F));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
+				.setValue(COLOR_PROPERTY, Color.BLUE)
+				.setValue(SIZE_PROPERTY, 0));
 	}
 
 	@Override
@@ -65,14 +67,14 @@ public class PresentBlock extends Block {
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(BlockStateProperties.HORIZONTAL_FACING, COLOR_PROPERTY, SIZE_PROPERTY);
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		switch (state.get(SIZE_PROPERTY)) {
+		switch (state.getValue(SIZE_PROPERTY)) {
 			default:
 			case 0:
 				return SHAPE_0;
@@ -90,14 +92,14 @@ public class PresentBlock extends Block {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult trace) {
-		if (!world.isRemote) {
-			TileEntity tileEntity = world.getTileEntity(pos);
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult trace) {
+		if (!world.isClientSide) {
+			TileEntity tileEntity = world.getBlockEntity(pos);
 			if (tileEntity instanceof PresentTile) {
 				PresentTile presentTile = ((PresentTile) tileEntity);
-				presentTile.setWorldAndPos(world, pos);
+				presentTile.setLevelAndPosition(world, pos);
 
-				if (player.getUniqueID().equals(presentTile.getPlacer())) {
+				if (player.getUUID().equals(presentTile.getPlacer())) {
 					INamedContainerProvider containerProvider = new INamedContainerProvider() {
 						@Override
 						public ITextComponent getDisplayName() {
@@ -109,7 +111,7 @@ public class PresentBlock extends Block {
 							return new PresentContainer(i, world, pos, playerInventory, playerEntity);
 						}
 					};
-					NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getPos());
+					NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getBlockPos());
 				} else {
 					presentTile.openPresent(world, pos);
 				}
@@ -122,14 +124,14 @@ public class PresentBlock extends Block {
 
 	@Override
 	public void onBlockExploded(BlockState state, World world, BlockPos pos, Explosion explosion) {
-		((PresentTile) world.getTileEntity(pos)).dropInventory(world, pos);
+		((PresentTile) world.getBlockEntity(pos)).dropInventory(world, pos);
 		super.onBlockExploded(state, world, pos, explosion);
 	}
 
 	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-		((PresentTile) worldIn.getTileEntity(pos)).dropInventory(worldIn, pos);
-		super.onBlockHarvested(worldIn, pos, state, player);
+	public void playerWillDestroy(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
+		((PresentTile) worldIn.getBlockEntity(pos)).dropInventory(worldIn, pos);
+		super.playerWillDestroy(worldIn, pos, state, player);
 	}
 
 }

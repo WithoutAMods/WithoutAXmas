@@ -41,11 +41,11 @@ public class PresentRegistration {
 	public static final RegistryObject<Item> PRESENT_RED_ITEM = ITEMS.register("present_red", () -> new PresentItem(Color.RED));
 	public static final RegistryObject<Item> PRESENT_YELLOW_ITEM = ITEMS.register("present_yellow", () -> new PresentItem(Color.YELLOW));
 
-	public static final RegistryObject<TileEntityType<PresentTile>> PRESENT_TILE = TILES.register("present", () -> TileEntityType.Builder.create(PresentTile::new, PRESENT_BLOCK.get()).build(null));
+	public static final RegistryObject<TileEntityType<PresentTile>> PRESENT_TILE = TILES.register("present", () -> TileEntityType.Builder.of(PresentTile::new, PRESENT_BLOCK.get()).build(null));
 
 	public static final RegistryObject<ContainerType<PresentContainer>> PRESENT_CONTAINER = CONTAINERS.register("present", () -> IForgeContainerType.create((windowId, inv, data) -> {
 		BlockPos pos = data.readBlockPos();
-		World world = inv.player.getEntityWorld();
+		World world = inv.player.getCommandSenderWorld();
 		return new PresentContainer(windowId, world, pos, inv, inv.player);
 	}));
 

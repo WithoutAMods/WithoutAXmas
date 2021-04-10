@@ -18,7 +18,7 @@ public class PresentContainer extends BaseContainer {
 
 	public PresentContainer(int windowId, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity player) {
 		super(PresentRegistration.PRESENT_CONTAINER.get(), windowId, 3);
-		tileEntity = world.getTileEntity(pos);
+		tileEntity = world.getBlockEntity(pos);
 		this.playerEntity = player;
 
 		if (tileEntity != null) {
@@ -30,8 +30,8 @@ public class PresentContainer extends BaseContainer {
 	}
 
 	@Override
-	public boolean canInteractWith(PlayerEntity playerIn) {
-		return isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()), playerEntity, PresentRegistration.PRESENT_BLOCK.get());
+	public boolean stillValid(PlayerEntity playerIn) {
+		return stillValid(IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos()), playerEntity, PresentRegistration.PRESENT_BLOCK.get());
 	}
 
 }

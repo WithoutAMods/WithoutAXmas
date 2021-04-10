@@ -9,7 +9,7 @@ public class ClientSetup {
 
 	public static void init(final FMLClientSetupEvent event) {
 		//Present
-		ScreenManager.registerFactory(PresentRegistration.PRESENT_CONTAINER.get(), PresentScreen::new);
+		ScreenManager.register(PresentRegistration.PRESENT_CONTAINER.get(), PresentScreen::new);
 	}
 
 }

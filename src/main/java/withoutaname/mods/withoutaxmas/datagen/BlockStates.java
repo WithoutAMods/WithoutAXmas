@@ -91,7 +91,7 @@ public class BlockStates extends BlockStateProvider {
 					.end();
 		horizontalBlock(PresentRegistration.PRESENT_BLOCK.get(), (blockState) -> {
 			ModelFile parent;
-			int size = blockState.get(PresentBlock.SIZE_PROPERTY);
+			int size = blockState.getValue(PresentBlock.SIZE_PROPERTY);
 			switch (size) {
 				default:
 				case 0:
@@ -104,7 +104,7 @@ public class BlockStates extends BlockStateProvider {
 					parent = present2;
 					break;
 			}
-			return getPresentModelFile(blockState.get(PresentBlock.COLOR_PROPERTY), size, parent);
+			return getPresentModelFile(blockState.getValue(PresentBlock.COLOR_PROPERTY), size, parent);
 		});
 		for (Color color : Color.getValues()) {
 			itemModels().withExistingParent("present_" + color, modLoc("block/present_2_" + color));

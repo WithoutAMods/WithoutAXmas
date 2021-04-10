@@ -21,29 +21,29 @@ public class Recipes extends RecipeProvider{
 	}
 	
 	@Override
-	protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
+	protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
 		registerOtherRecipes(consumer);
 		registerPresentRecipes(consumer);
 		registerXmasTreeRecipes(consumer);
 	}
 
 	private void registerOtherRecipes(Consumer<IFinishedRecipe> consumer) {
-		ShapedRecipeBuilder.shapedRecipe(OtherRegistration.ADVENT_WREATH_BLOCK.get())
-				.patternLine("LCL")
-				.patternLine("C C")
-				.patternLine("LCL")
-				.key('L', Items.SPRUCE_LEAVES)
-				.key('C', OtherRegistration.CANDLE_ITEM.get())
-				.addCriterion("candle", InventoryChangeTrigger.Instance.forItems(OtherRegistration.CANDLE_ITEM.get()))
-				.build(consumer);
-		ShapedRecipeBuilder.shapedRecipe(OtherRegistration.CANDLE_ITEM.get())
-				.patternLine(" S ")
-				.patternLine("CSC")
-				.patternLine("CSC")
-				.key('C', Items.HONEYCOMB)
-				.key('S', Items.STRING)
-				.addCriterion("honeycomb", InventoryChangeTrigger.Instance.forItems(Items.HONEYCOMB))
-				.build(consumer);
+		ShapedRecipeBuilder.shaped(OtherRegistration.ADVENT_WREATH_BLOCK.get())
+				.pattern("LCL")
+				.pattern("C C")
+				.pattern("LCL")
+				.define('L', Items.SPRUCE_LEAVES)
+				.define('C', OtherRegistration.CANDLE_ITEM.get())
+				.unlockedBy("candle", InventoryChangeTrigger.Instance.hasItems(OtherRegistration.CANDLE_ITEM.get()))
+				.save(consumer);
+		ShapedRecipeBuilder.shaped(OtherRegistration.CANDLE_ITEM.get())
+				.pattern(" S ")
+				.pattern("CSC")
+				.pattern("CSC")
+				.define('C', Items.HONEYCOMB)
+				.define('S', Items.STRING)
+				.unlockedBy("honeycomb", InventoryChangeTrigger.Instance.hasItems(Items.HONEYCOMB))
+				.save(consumer);
 	}
 
 	private void registerPresentRecipes(Consumer<IFinishedRecipe> consumer) {
@@ -55,26 +55,26 @@ public class Recipes extends RecipeProvider{
 	}
 
 	private void addColoredPresentRecipes(Consumer<IFinishedRecipe> consumer, Item present, Item wool) {
-		ShapedRecipeBuilder.shapedRecipe(present)
-				.patternLine("WSW")
-				.patternLine("SSS")
-				.patternLine("WSW")
-				.key('W', wool)
-				.key('S', Tags.Items.STRING)
-				.addCriterion(wool.toString(), InventoryChangeTrigger.Instance.forItems(wool))
-				.build(consumer);
+		ShapedRecipeBuilder.shaped(present)
+				.pattern("WSW")
+				.pattern("SSS")
+				.pattern("WSW")
+				.define('W', wool)
+				.define('S', Tags.Items.STRING)
+				.unlockedBy(wool.toString(), InventoryChangeTrigger.Instance.hasItems(wool))
+				.save(consumer);
 	}
 
 	private void registerXmasTreeRecipes(Consumer<IFinishedRecipe> consumer) {
-		ShapedRecipeBuilder.shapedRecipe(XmasTreeRegistration.XMAS_TREE_ITEM.get())
-				.patternLine("DDD")
-				.patternLine("DGD")
-				.patternLine("DSD")
-				.key('D', Tags.Items.DYES)
-				.key('G', Items.GOLD_NUGGET)
-				.key('S', Items.SPRUCE_SAPLING)
-				.addCriterion("spruce_sapling", InventoryChangeTrigger.Instance.forItems(Items.SPRUCE_SAPLING))
-				.build(consumer);
+		ShapedRecipeBuilder.shaped(XmasTreeRegistration.XMAS_TREE_ITEM.get())
+				.pattern("DDD")
+				.pattern("DGD")
+				.pattern("DSD")
+				.define('D', Tags.Items.DYES)
+				.define('G', Items.GOLD_NUGGET)
+				.define('S', Items.SPRUCE_SAPLING)
+				.unlockedBy("spruce_sapling", InventoryChangeTrigger.Instance.hasItems(Items.SPRUCE_SAPLING))
+				.save(consumer);
 	}
 
 }

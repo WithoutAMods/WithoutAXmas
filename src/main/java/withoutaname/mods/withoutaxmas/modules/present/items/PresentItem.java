@@ -26,28 +26,28 @@ public class PresentItem extends Item {
 	}
 
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context) {
-		World world = context.getWorld();
-		BlockPos pos = world.getBlockState(context.getPos()).getMaterial().isReplaceable() ? context.getPos() : context.getPos().offset(context.getFace());
+	public ActionResultType useOn(ItemUseContext context) {
+		World world = context.getLevel();
+		BlockPos pos = world.getBlockState(context.getClickedPos()).getMaterial().isReplaceable() ? context.getClickedPos() : context.getClickedPos().relative(context.getClickedFace());
 		if (world.getBlockState(pos).getMaterial().isReplaceable()) {
-			if (!world.isRemote) {
-				Direction facing = context.getPlacementHorizontalFacing();
-				world.setBlockState(pos, PresentRegistration.PRESENT_BLOCK.get().getDefaultState()
-						.with(BlockStateProperties.HORIZONTAL_FACING, facing)
-						.with(PresentBlock.COLOR_PROPERTY, this.color)
-						.with(PresentBlock.SIZE_PROPERTY, 0));
-				TileEntity tileEntity = world.getTileEntity(pos);
+			if (!world.isClientSide) {
+				Direction facing = context.getHorizontalDirection();
+				world.setBlockAndUpdate(pos, PresentRegistration.PRESENT_BLOCK.get().defaultBlockState()
+						.setValue(BlockStateProperties.HORIZONTAL_FACING, facing)
+						.setValue(PresentBlock.COLOR_PROPERTY, this.color)
+						.setValue(PresentBlock.SIZE_PROPERTY, 0));
+				TileEntity tileEntity = world.getBlockEntity(pos);
 				if (tileEntity instanceof PresentTile) {
-					UUID player = context.getPlayer().getUniqueID();
+					UUID player = context.getPlayer().getUUID();
 					((PresentTile) tileEntity).setPlacer(player);
 				} else {
 					throw new IllegalStateException("No tile entity found!");
 				}
-				context.getItem().shrink(1);
+				context.getItemInHand().shrink(1);
 			}
 			return ActionResultType.SUCCESS;
 		}
-		return super.onItemUse(context);
+		return super.useOn(context);
 	}
 
 }

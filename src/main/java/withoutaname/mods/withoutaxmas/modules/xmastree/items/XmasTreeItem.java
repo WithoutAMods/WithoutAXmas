@@ -9,26 +9,28 @@ import net.minecraft.world.World;
 import withoutaname.mods.withoutaxmas.modules.xmastree.blocks.XmasTreeBlock;
 import withoutaname.mods.withoutaxmas.setup.ModSetup;
 
+import net.minecraft.item.Item.Properties;
+
 public class XmasTreeItem extends Item {
 
 	public XmasTreeItem() {
 		super(new Properties()
-				.maxStackSize(64)
-				.group(ModSetup.defaultItemGroup));
+				.stacksTo(64)
+				.tab(ModSetup.defaultItemGroup));
 	}
 
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context) {
-		World world = context.getWorld();
-		BlockPos pos = world.getBlockState(context.getPos()).getMaterial().isReplaceable() ? context.getPos() : context.getPos().offset(context.getFace());
+	public ActionResultType useOn(ItemUseContext context) {
+		World world = context.getLevel();
+		BlockPos pos = world.getBlockState(context.getClickedPos()).getMaterial().isReplaceable() ? context.getClickedPos() : context.getClickedPos().relative(context.getClickedFace());
 		if (XmasTreeBlock.isEnoughSpace(world, pos)) {
-			if (!world.isRemote) {
-				XmasTreeBlock.createTree(world, pos, context.getPlacementHorizontalFacing());
-				context.getItem().shrink(1);
+			if (!world.isClientSide) {
+				XmasTreeBlock.createTree(world, pos, context.getHorizontalDirection());
+				context.getItemInHand().shrink(1);
 			}
 			return ActionResultType.SUCCESS;
 		}
-		return super.onItemUse(context);
+		return super.useOn(context);
 	}
 
 }

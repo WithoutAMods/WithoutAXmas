@@ -33,19 +33,19 @@ public class PresentTile extends TileEntity {
 	}
 
 	public void dropInventory(World world, BlockPos pos) {
-		this.setWorldAndPos(world, pos);
+		this.setLevelAndPosition(world, pos);
 		ItemStack itemStack;
 		for (int i = 0; i < 3; i++) {
 			itemStack = itemHandler.getStackInSlot(i);
-			world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), itemStack));
+			world.addFreshEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), itemStack));
 		}
-		markDirty();
+		setChanged();
 	}
 
 	public void openPresent(World world, BlockPos pos) {
-		this.setWorldAndPos(world, pos);
+		this.setLevelAndPosition(world, pos);
 		if (!this.isEmpty()) {
-			world.setBlockState(pos, Blocks.AIR.getDefaultState());
+			world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			this.dropInventory(world, pos);
 		}
 	}
@@ -91,23 +91,23 @@ public class PresentTile extends TileEntity {
 	}
 
 	@Override
-	public void remove() {
-		super.remove();
+	public void setRemoved() {
+		super.setRemoved();
 		handler.invalidate();
 	}
 
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
+	public void load(BlockState state, CompoundNBT nbt) {
 		itemHandler.deserializeNBT(nbt.getCompound("inv"));
-		this.placer = nbt.getUniqueId("placer");
-		super.read(state, nbt);
+		this.placer = nbt.getUUID("placer");
+		super.load(state, nbt);
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT nbt) {
+	public CompoundNBT save(CompoundNBT nbt) {
 		nbt.put("inv", itemHandler.serializeNBT());
-		nbt.putUniqueId("placer", this.placer);
-		return super.write(nbt);
+		nbt.putUUID("placer", this.placer);
+		return super.save(nbt);
 	}
 
 	private ItemStackHandler createItemHandler() {
@@ -115,8 +115,8 @@ public class PresentTile extends TileEntity {
 
 			@Override
 			protected void onContentsChanged(int slot) {
-				world.setBlockState(pos, world.getBlockState(pos).with(PresentBlock.SIZE_PROPERTY, getSize()));
-				markDirty();
+				level.setBlockAndUpdate(worldPosition, level.getBlockState(worldPosition).setValue(PresentBlock.SIZE_PROPERTY, getSize()));
+				setChanged();
 			}
 		};
 	}
