@@ -4,13 +4,14 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import withoutaname.mods.withoutaxmas.WithoutAXmas;
 import withoutaname.mods.withoutaxmas.modules.xmastree.setup.XmasTreeRegistration;
 
 import javax.annotation.Nonnull;
 
 public class ModSetup {
 	
-	public static final CreativeModeTab DEFAULT_CREATIVE_TAB = new CreativeModeTab("WithoutAXmas") {
+	public static final CreativeModeTab DEFAULT_CREATIVE_TAB = new CreativeModeTab(WithoutAXmas.MODID) {
 		
 		@Nonnull
 		@Override

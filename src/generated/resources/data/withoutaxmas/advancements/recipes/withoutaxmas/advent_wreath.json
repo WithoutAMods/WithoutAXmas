@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "withoutaxmas:candle"
+            "items": [
+              "withoutaxmas:candle"
+            ]
           }
         ]
       }
