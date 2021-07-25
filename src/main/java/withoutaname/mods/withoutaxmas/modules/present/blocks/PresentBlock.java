@@ -17,6 +17,7 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -81,6 +82,12 @@ public class PresentBlock extends BaseEntityBlock {
 			case 1 -> SHAPE_1;
 			case 2 -> SHAPE_2;
 		};
+	}
+	
+	@Nonnull
+	@Override
+	public RenderShape getRenderShape(@Nonnull BlockState pState) {
+		return RenderShape.MODEL;
 	}
 
 	@Nonnull
