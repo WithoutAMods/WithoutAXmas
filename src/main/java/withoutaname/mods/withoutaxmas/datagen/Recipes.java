@@ -34,16 +34,8 @@ public class Recipes extends RecipeProvider {
 				.pattern("C C")
 				.pattern("LCL")
 				.define('L', Items.SPRUCE_LEAVES)
-				.define('C', OtherRegistration.CANDLE_ITEM.get())
-				.unlockedBy("candle", InventoryChangeTrigger.TriggerInstance.hasItems(OtherRegistration.CANDLE_ITEM.get()))
-				.save(consumer);
-		ShapedRecipeBuilder.shaped(OtherRegistration.CANDLE_ITEM.get())
-				.pattern(" S ")
-				.pattern("CSC")
-				.pattern("CSC")
-				.define('C', Items.HONEYCOMB)
-				.define('S', Items.STRING)
-				.unlockedBy("honeycomb", InventoryChangeTrigger.TriggerInstance.hasItems(Items.HONEYCOMB))
+				.define('C', Items.RED_CANDLE)
+				.unlockedBy("candle", InventoryChangeTrigger.TriggerInstance.hasItems(Items.RED_CANDLE))
 				.save(consumer);
 	}
 	

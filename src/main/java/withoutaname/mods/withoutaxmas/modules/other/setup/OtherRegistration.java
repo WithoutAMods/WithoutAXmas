@@ -8,7 +8,6 @@ import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import withoutaname.mods.withoutaxmas.modules.other.blocks.AdventWreathBlock;
-import withoutaname.mods.withoutaxmas.modules.other.blocks.CandleBlock;
 import withoutaname.mods.withoutaxmas.setup.ModSetup;
 
 import static withoutaname.mods.withoutaxmas.WithoutAXmas.MODID;
@@ -25,8 +24,5 @@ public class OtherRegistration {
 
 	public static final RegistryObject<AdventWreathBlock> ADVENT_WREATH_BLOCK = BLOCKS.register("advent_wreath", AdventWreathBlock::new);
 	public static final RegistryObject<BlockItem> ADVENT_WREATH_ITEM = ITEMS.register("advent_wreath", () -> new BlockItem(ADVENT_WREATH_BLOCK.get(), ModSetup.DEFAULT_ITEM_PROPERTIES));
-
-	public static final RegistryObject<CandleBlock> CANDLE_BLOCK = BLOCKS.register("candle", CandleBlock::new);
-	public static final RegistryObject<BlockItem> CANDLE_ITEM = ITEMS.register("candle", () -> new BlockItem(CANDLE_BLOCK.get(), ModSetup.DEFAULT_ITEM_PROPERTIES));
 
 }

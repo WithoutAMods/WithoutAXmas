@@ -28,7 +28,6 @@ public class LootTables extends BaseLootTableProvider {
 	
 	private void addOtherTables() {
 		createStandardTable(OtherRegistration.ADVENT_WREATH_BLOCK.get(), OtherRegistration.ADVENT_WREATH_ITEM.get());
-		createStandardTable(OtherRegistration.CANDLE_BLOCK.get(), OtherRegistration.CANDLE_ITEM.get());
 	}
 	
 	private void addPresentTables() {

@@ -29,7 +29,6 @@ public class Language extends LanguageProvider {
 
 	private void addOtherTranslations() {
 		add(OtherRegistration.ADVENT_WREATH_BLOCK.get(), "Adventskranz", "Advent Wreath");
-		add(OtherRegistration.CANDLE_BLOCK.get(), "Kerze", "Candle");
 	}
 
 	public static final String PRESENT_DE_DE = "Geschenk";
