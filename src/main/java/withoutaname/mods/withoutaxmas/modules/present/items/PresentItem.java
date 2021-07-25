@@ -1,13 +1,13 @@
 package withoutaname.mods.withoutaxmas.modules.present.items;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import withoutaname.mods.withoutaxmas.modules.present.blocks.PresentBlock;
 import withoutaname.mods.withoutaxmas.modules.present.blocks.PresentTile;
 import withoutaname.mods.withoutaxmas.modules.present.setup.PresentRegistration;
@@ -21,13 +21,13 @@ public class PresentItem extends Item {
 	private final Color color;
 
 	public PresentItem(Color color) {
-		super(ModSetup.defaultItemProperties);
+		super(ModSetup.DEFAULT_ITEM_PROPERTIES);
 		this.color = color;
 	}
 
 	@Override
-	public ActionResultType useOn(ItemUseContext context) {
-		World world = context.getLevel();
+	public InteractionResult useOn(UseOnContext context) {
+		Level world = context.getLevel();
 		BlockPos pos = world.getBlockState(context.getClickedPos()).getMaterial().isReplaceable() ? context.getClickedPos() : context.getClickedPos().relative(context.getClickedFace());
 		if (world.getBlockState(pos).getMaterial().isReplaceable()) {
 			if (!world.isClientSide) {
@@ -36,7 +36,7 @@ public class PresentItem extends Item {
 						.setValue(BlockStateProperties.HORIZONTAL_FACING, facing)
 						.setValue(PresentBlock.COLOR_PROPERTY, this.color)
 						.setValue(PresentBlock.SIZE_PROPERTY, 0));
-				TileEntity tileEntity = world.getBlockEntity(pos);
+				BlockEntity tileEntity = world.getBlockEntity(pos);
 				if (tileEntity instanceof PresentTile) {
 					UUID player = context.getPlayer().getUUID();
 					((PresentTile) tileEntity).setPlacer(player);
@@ -45,7 +45,7 @@ public class PresentItem extends Item {
 				}
 				context.getItemInHand().shrink(1);
 			}
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 		return super.useOn(context);
 	}

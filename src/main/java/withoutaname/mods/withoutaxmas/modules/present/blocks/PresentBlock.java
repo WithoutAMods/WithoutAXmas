@@ -1,41 +1,41 @@
 package withoutaname.mods.withoutaxmas.modules.present.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.Item;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuConstructor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import withoutaname.mods.withoutaxmas.modules.present.setup.PresentRegistration;
 import withoutaname.mods.withoutaxmas.modules.present.tools.Color;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.block.AbstractBlock.Properties;
-
-public class PresentBlock extends Block {
+public class PresentBlock extends BaseEntityBlock {
 
 	public static final EnumProperty<Color> COLOR_PROPERTY = EnumProperty.create("color", Color.class);
 	public static final IntegerProperty SIZE_PROPERTY = IntegerProperty.create("size", 0, 2);
@@ -54,83 +54,70 @@ public class PresentBlock extends Block {
 				.setValue(SIZE_PROPERTY, 0));
 	}
 
+	@Nonnull
 	@Override
 	public Item asItem() {
 		return PresentRegistration.PRESENT_BLUE_ITEM.get();
 	}
-
-
+	
+	
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new PresentTile();
+	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
+		return new PresentTile(pos, state);
 	}
-
+	
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(BlockStateProperties.HORIZONTAL_FACING, COLOR_PROPERTY, SIZE_PROPERTY);
 	}
 
+	@Nonnull
 	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		switch (state.getValue(SIZE_PROPERTY)) {
-			default:
-			case 0:
-				return SHAPE_0;
-			case 1:
-				return SHAPE_1;
-			case 2:
-				return SHAPE_2;
-		}
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+		return switch (state.getValue(SIZE_PROPERTY)) {
+			default -> SHAPE_0;
+			case 1 -> SHAPE_1;
+			case 2 -> SHAPE_2;
+		};
 	}
 
-	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
-	}
-
+	@Nonnull
 	@SuppressWarnings("deprecation")
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult trace) {
+	public InteractionResult use(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult trace) {
 		if (!world.isClientSide) {
-			TileEntity tileEntity = world.getBlockEntity(pos);
-			if (tileEntity instanceof PresentTile) {
-				PresentTile presentTile = ((PresentTile) tileEntity);
-				presentTile.setLevelAndPosition(world, pos);
-
+			BlockEntity tileEntity = world.getBlockEntity(pos);
+			if (tileEntity instanceof PresentTile presentTile) {
 				if (player.getUUID().equals(presentTile.getPlacer())) {
-					INamedContainerProvider containerProvider = new INamedContainerProvider() {
+					SimpleMenuProvider menuProvider = new SimpleMenuProvider(new MenuConstructor() {
+						@Nonnull
 						@Override
-						public ITextComponent getDisplayName() {
-							return new TranslationTextComponent("screen.withoutaxmas.present");
+						public AbstractContainerMenu createMenu(int pContainerId, @Nonnull Inventory pInventory, @Nonnull Player pPlayer) {
+							return new PresentContainer(pContainerId, world, pos, pInventory, pPlayer);
 						}
-
-						@Override
-						public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-							return new PresentContainer(i, world, pos, playerInventory, playerEntity);
-						}
-					};
-					NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getBlockPos());
+					}, new TranslatableComponent("screen.withoutaxmas.present"));
+					NetworkHooks.openGui((ServerPlayer) player, menuProvider, tileEntity.getBlockPos());
 				} else {
-					presentTile.openPresent(world, pos);
+					presentTile.openPresent();
 				}
 			} else {
 				throw new IllegalStateException("No tile entity found!");
 			}
 		}
-		return ActionResultType.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
-	public void onBlockExploded(BlockState state, World world, BlockPos pos, Explosion explosion) {
-		((PresentTile) world.getBlockEntity(pos)).dropInventory(world, pos);
+	public void onBlockExploded(BlockState state, Level world, BlockPos pos, Explosion explosion) {
+		((PresentTile) world.getBlockEntity(pos)).dropInventory();
 		super.onBlockExploded(state, world, pos, explosion);
 	}
 
 	@Override
-	public void playerWillDestroy(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-		((PresentTile) worldIn.getBlockEntity(pos)).dropInventory(worldIn, pos);
+	public void playerWillDestroy(Level worldIn, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+		((PresentTile) worldIn.getBlockEntity(pos)).dropInventory();
 		super.playerWillDestroy(worldIn, pos, state, player);
 	}
 

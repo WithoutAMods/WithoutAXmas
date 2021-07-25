@@ -1,22 +1,24 @@
 package withoutaname.mods.withoutaxmas.modules.present.blocks;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import withoutaname.mods.withoutalib.blocks.BaseContainer;
 import withoutaname.mods.withoutaxmas.modules.present.setup.PresentRegistration;
 
+import javax.annotation.Nonnull;
+
 public class PresentContainer extends BaseContainer {
 
-	private TileEntity tileEntity;
-	private PlayerEntity playerEntity;
+	private final BlockEntity tileEntity;
+	private final Player playerEntity;
 
-	public PresentContainer(int windowId, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity player) {
+	public PresentContainer(int windowId, Level world, BlockPos pos, Inventory playerInventory, Player player) {
 		super(PresentRegistration.PRESENT_CONTAINER.get(), windowId, 3);
 		tileEntity = world.getBlockEntity(pos);
 		this.playerEntity = player;
@@ -30,8 +32,8 @@ public class PresentContainer extends BaseContainer {
 	}
 
 	@Override
-	public boolean stillValid(PlayerEntity playerIn) {
-		return stillValid(IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos()), playerEntity, PresentRegistration.PRESENT_BLOCK.get());
+	public boolean stillValid(@Nonnull Player playerIn) {
+		return stillValid(ContainerLevelAccess.create(tileEntity.getLevel(), tileEntity.getBlockPos()), playerEntity, PresentRegistration.PRESENT_BLOCK.get());
 	}
 
 }

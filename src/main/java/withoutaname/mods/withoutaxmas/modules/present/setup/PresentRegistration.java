@@ -1,14 +1,14 @@
 package withoutaname.mods.withoutaxmas.modules.present.setup;
 
-import net.minecraft.block.Block;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import withoutaname.mods.withoutaxmas.modules.present.blocks.PresentBlock;
@@ -23,8 +23,8 @@ public class PresentRegistration {
 
 	private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
 	private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-	private static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, MODID);
-	private static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, MODID);
+	private static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, MODID);
+	private static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, MODID);
 
 	public static void init() {
 		BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -41,11 +41,11 @@ public class PresentRegistration {
 	public static final RegistryObject<Item> PRESENT_RED_ITEM = ITEMS.register("present_red", () -> new PresentItem(Color.RED));
 	public static final RegistryObject<Item> PRESENT_YELLOW_ITEM = ITEMS.register("present_yellow", () -> new PresentItem(Color.YELLOW));
 
-	public static final RegistryObject<TileEntityType<PresentTile>> PRESENT_TILE = TILES.register("present", () -> TileEntityType.Builder.of(PresentTile::new, PRESENT_BLOCK.get()).build(null));
+	public static final RegistryObject<BlockEntityType<PresentTile>> PRESENT_TILE = TILES.register("present", () -> BlockEntityType.Builder.of(PresentTile::new, PRESENT_BLOCK.get()).build(null));
 
-	public static final RegistryObject<ContainerType<PresentContainer>> PRESENT_CONTAINER = CONTAINERS.register("present", () -> IForgeContainerType.create((windowId, inv, data) -> {
+	public static final RegistryObject<MenuType<PresentContainer>> PRESENT_CONTAINER = CONTAINERS.register("present", () -> IForgeContainerType.create((windowId, inv, data) -> {
 		BlockPos pos = data.readBlockPos();
-		World world = inv.player.getCommandSenderWorld();
+		Level world = inv.player.getCommandSenderWorld();
 		return new PresentContainer(windowId, world, pos, inv, inv.player);
 	}));
 

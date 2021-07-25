@@ -1,8 +1,8 @@
 package withoutaname.mods.withoutaxmas.modules.present.tools;
 
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.StringRepresentable;
 
-public enum Color implements IStringSerializable {
+public enum Color implements StringRepresentable {
 	BLUE("blue"),
 	GREEN("green"),
 	PURPLE("purple"),

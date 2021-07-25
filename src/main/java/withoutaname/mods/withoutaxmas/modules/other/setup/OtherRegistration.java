@@ -1,15 +1,10 @@
 package withoutaname.mods.withoutaxmas.modules.other.setup;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.TorchBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import withoutaname.mods.withoutaxmas.modules.other.blocks.AdventWreathBlock;
@@ -29,9 +24,9 @@ public class OtherRegistration {
 	}
 
 	public static final RegistryObject<AdventWreathBlock> ADVENT_WREATH_BLOCK = BLOCKS.register("advent_wreath", AdventWreathBlock::new);
-	public static final RegistryObject<BlockItem> ADVENT_WREATH_ITEM = ITEMS.register("advent_wreath", () -> new BlockItem(ADVENT_WREATH_BLOCK.get(), ModSetup.defaultItemProperties));
+	public static final RegistryObject<BlockItem> ADVENT_WREATH_ITEM = ITEMS.register("advent_wreath", () -> new BlockItem(ADVENT_WREATH_BLOCK.get(), ModSetup.DEFAULT_ITEM_PROPERTIES));
 
-	public static final RegistryObject<TorchBlock> CANDLE_BLOCK = BLOCKS.register("candle", CandleBlock::new);
-	public static final RegistryObject<BlockItem> CANDLE_ITEM = ITEMS.register("candle", () -> new BlockItem(CANDLE_BLOCK.get(), ModSetup.defaultItemProperties));
+	public static final RegistryObject<CandleBlock> CANDLE_BLOCK = BLOCKS.register("candle", CandleBlock::new);
+	public static final RegistryObject<BlockItem> CANDLE_ITEM = ITEMS.register("candle", () -> new BlockItem(CANDLE_BLOCK.get(), ModSetup.DEFAULT_ITEM_PROPERTIES));
 
 }

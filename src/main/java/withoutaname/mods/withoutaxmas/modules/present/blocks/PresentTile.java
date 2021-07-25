@@ -1,14 +1,13 @@
 package withoutaname.mods.withoutaxmas.modules.present.blocks;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -20,7 +19,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class PresentTile extends TileEntity {
+public class PresentTile extends BlockEntity {
 
 	private UUID placer;
 
@@ -28,25 +27,23 @@ public class PresentTile extends TileEntity {
 
 	private LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
 
-	public PresentTile() {
-		super(PresentRegistration.PRESENT_TILE.get());
+	public PresentTile(BlockPos pos, BlockState state) {
+		super(PresentRegistration.PRESENT_TILE.get(), pos, state);
 	}
 
-	public void dropInventory(World world, BlockPos pos) {
-		this.setLevelAndPosition(world, pos);
+	public void dropInventory() {
 		ItemStack itemStack;
 		for (int i = 0; i < 3; i++) {
 			itemStack = itemHandler.getStackInSlot(i);
-			world.addFreshEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), itemStack));
+			level.addFreshEntity(new ItemEntity(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), itemStack));
 		}
 		setChanged();
 	}
 
-	public void openPresent(World world, BlockPos pos) {
-		this.setLevelAndPosition(world, pos);
+	public void openPresent() {
 		if (!this.isEmpty()) {
-			world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-			this.dropInventory(world, pos);
+			level.setBlockAndUpdate(worldPosition, Blocks.AIR.defaultBlockState());
+			this.dropInventory();
 		}
 	}
 
@@ -59,21 +56,11 @@ public class PresentTile extends TileEntity {
 	}
 
 	public int getSize() {
-		int size;
-		switch (getStackAmount()) {
-			default:
-			case 0:
-			case 1:
-				size = 0;
-				break;
-			case 2:
-				size = 1;
-				break;
-			case 3:
-				size = 2;
-				break;
-		}
-		return size;
+		return switch (getStackAmount()) {
+			default -> 0;
+			case 2 -> 1;
+			case 3 -> 2;
+		};
 	}
 
 	public int getStackAmount() {
@@ -97,17 +84,19 @@ public class PresentTile extends TileEntity {
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT nbt) {
+	public void load(@Nonnull CompoundTag nbt) {
+		super.load(nbt);
 		itemHandler.deserializeNBT(nbt.getCompound("inv"));
 		this.placer = nbt.getUUID("placer");
-		super.load(state, nbt);
 	}
 
+	@Nonnull
 	@Override
-	public CompoundNBT save(CompoundNBT nbt) {
-		nbt.put("inv", itemHandler.serializeNBT());
-		nbt.putUUID("placer", this.placer);
-		return super.save(nbt);
+	public CompoundTag save(@Nonnull CompoundTag tag) {
+		super.save(tag);
+		tag.put("inv", itemHandler.serializeNBT());
+		tag.putUUID("placer", this.placer);
+		return tag;
 	}
 
 	private ItemStackHandler createItemHandler() {
